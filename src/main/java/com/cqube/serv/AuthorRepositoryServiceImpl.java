@@ -5,10 +5,11 @@ import java.util.List;
 import com.cqube.dao.ManagerDAOImpl;
 import com.cqube.idao.IManagerDAO;
 import com.cqube.iserv.IAuthorRepositoryService;
+import com.cqube.main.ILibraryServices;
 import com.cqube.model.Author;
 import com.cqube.utils.DAOException;
 
-public class AuthorRepositoryServiceImpl implements IAuthorRepositoryService, ILibraryService {
+public class AuthorRepositoryServiceImpl implements IAuthorRepositoryService, ILibraryServices {
 
 	private IManagerDAO manager;
 
@@ -28,7 +29,7 @@ public class AuthorRepositoryServiceImpl implements IAuthorRepositoryService, IL
 	}
 
 	@Override
-	public void showAllsearches(ILibraryService service) throws DAOException {
+	public void showAllsearches(ILibraryServices service) throws DAOException {
 		for (Author a : list()) {
 			System.out.println("Author: " + a.getName());
 			service.showByParameter(a.getId());
