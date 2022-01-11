@@ -5,7 +5,6 @@ import java.util.List;
 import com.cqube.dao.ManagerDAOImpl;
 import com.cqube.idao.IManagerDAO;
 import com.cqube.iserv.IAuthorRepositoryService;
-import com.cqube.iserv.IBookRepositoryService;
 import com.cqube.model.Author;
 import com.cqube.utils.DAOException;
 
@@ -29,11 +28,15 @@ public class AuthorRepositoryServiceImpl implements IAuthorRepositoryService, IL
 	}
 
 	@Override
-	public void searchAll(ILibraryService service) throws DAOException {
+	public void showAllsearches(ILibraryService service) throws DAOException {
 		for (Author a : list()) {
 			System.out.println("Author: " + a.getName());
-			System.out.println("Books: " + ((IBookRepositoryService) service).listByAuthor(a.getId()) + "\n");
+			service.showByParameter(a.getId());
 		}
 	}
 
+	@Override
+	public void showByParameter(Long parameter) throws DAOException {
+		System.out.println("Books: " + listByBook(parameter) + "\n");
+	}
 }
