@@ -33,7 +33,7 @@ public class ConnectionProvider {
 		return connection;
 	}
 	
-	public static void closeConnection() {
+	public static void freeConnection() {
 		try {
 			if (!(connection == null) && !connection.isClosed()) {
 				connection.close();
