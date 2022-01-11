@@ -9,11 +9,11 @@ import com.cqube.idao.IBookRepositoryDAO;
 
 public class DAOFactory {
 
-	public static IAuthorRepositoryDAO getAuthorDAO(Connection connection) {
+	public static IAuthorRepositoryDAO getAuthorDAOImpl(Connection connection) {
 		return new AuthorRepositoryDAOImpl(connection);
 	}
 	
-	public static IBookRepositoryDAO getBookDAO(Connection connection) {
+	public static IBookRepositoryDAO getBookDAOImpl(Connection connection) {
 		return new BookRepositoryDAOImpl(connection);
 	}
 }

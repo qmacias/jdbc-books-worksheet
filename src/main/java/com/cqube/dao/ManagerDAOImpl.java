@@ -27,7 +27,7 @@ public class ManagerDAOImpl implements IManagerDAO {
     @Override
     public IAuthorRepositoryDAO getAuthorDAO() {
         if (auhtorRepository == null) {
-            auhtorRepository = DAOFactory.getAuthorDAO(connection);
+            auhtorRepository = DAOFactory.getAuthorDAOImpl(connection);
         }
         return auhtorRepository;
     }
@@ -35,7 +35,7 @@ public class ManagerDAOImpl implements IManagerDAO {
     @Override
     public IBookRepositoryDAO getBookDAO() {
         if (bookRepository == null) {
-            bookRepository = DAOFactory.getBookDAO(connection);
+            bookRepository = DAOFactory.getBookDAOImpl(connection);
         }
         return bookRepository;
     }

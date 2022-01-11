@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import com.cqube.dao.ManagerDAOImpl;
 import com.cqube.idao.IManagerDAO;
+import com.cqube.jdbc.ConnectionProvider;
 import com.cqube.model.Author;
 import com.cqube.model.Book;
 import com.cqube.utils.DAOException;
@@ -27,6 +28,8 @@ public class App {
         	System.out.println("Author: " + a.getName());
         	System.out.println("Books: " + manager.getBookDAO().findAllByAuthor(a.getId()) + "\n");
         }
+        
+        ConnectionProvider.closeConnection();
     }
 
 }

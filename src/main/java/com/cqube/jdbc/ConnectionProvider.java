@@ -1,7 +1,5 @@
 package com.cqube.jdbc;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,37 +21,28 @@ public class ConnectionProvider {
 		url = properties.getProperty("datasource");
 	}
 
-	public static Properties readPropertiesFile(String fileName) {
-		FileInputStream fis = null;
-		Properties prop = null;
-		try {
-			fis = new FileInputStream(fileName);
-			prop = new Properties();
-			prop.load(fis);
-		} catch (FileNotFoundException fnfe) {
-			fnfe.printStackTrace();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		} finally {
-			try {
-				fis.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return prop;
-	}
-
 	public static Connection getConnection() throws SQLException {
 		try {
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e) {
 			throw new SQLException(e);
 		}
-		if (connection == null) {
+		if (connection == null || connection.isClosed()) {
 			connection = DriverManager.getConnection(url);
 		}
 		return connection;
+	}
+	
+	public static void closeConnection() {
+		try {
+			if (!(connection == null) && !connection.isClosed()) {
+				connection.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			connection = null;
+		}
 	}
 
 }
