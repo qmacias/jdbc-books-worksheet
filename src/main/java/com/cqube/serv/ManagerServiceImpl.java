@@ -1,17 +1,17 @@
 package com.cqube.serv;
 
+import com.cqube.iserv.ILibraryService;
 import com.cqube.iserv.IManagerService;
-import com.cqube.main.ILibraryServices;
 import com.cqube.utils.DAOException;
 import com.cqube.utils.ServiceFactory;
 
 public class ManagerServiceImpl implements IManagerService {
 
-	private ILibraryServices authorService = null;
-	private ILibraryServices bookService = null;
+	private ILibraryService authorService = null;
+	private ILibraryService bookService = null;
 	
 	@Override
-	public ILibraryServices getAuthorService() throws DAOException {
+	public ILibraryService getAuthorService() throws DAOException {
 		if (authorService == null) {
 			authorService = ServiceFactory.getAuthorServiceImpl();
 		}
@@ -19,7 +19,7 @@ public class ManagerServiceImpl implements IManagerService {
 	}
 
 	@Override
-	public ILibraryServices getBookService() throws DAOException {
+	public ILibraryService getBookService() throws DAOException {
 		if (bookService == null) {
 			bookService = ServiceFactory.getBookServiceImpl();
 		}

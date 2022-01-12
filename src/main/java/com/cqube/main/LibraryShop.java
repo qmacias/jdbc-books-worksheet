@@ -1,5 +1,6 @@
 package com.cqube.main;
 
+import com.cqube.iserv.ILibraryService;
 import com.cqube.iserv.IManagerService;
 import com.cqube.jdbc.ConnectionProvider;
 import com.cqube.serv.ManagerServiceImpl;
@@ -7,31 +8,36 @@ import com.cqube.utils.DAOException;
 
 public class LibraryShop {
 
-	private ILibraryServices libraryService;
+	private ILibraryService libraryService;
+	private static IManagerService newService;
+	
+	public LibraryShop() {
+		LibraryShop.newService = new ManagerServiceImpl();
+	}
 
-	public LibraryShop(ILibraryServices libraryService) {
+	public LibraryShop(ILibraryService libraryService) {
 		super();
 		this.libraryService = libraryService;
 	}
 
-	public void showBookcaseInfo(ILibraryServices service) throws DAOException {
+	public void showBookcaseInfo(ILibraryService service) throws DAOException {
 		libraryService.showAllsearches(service);
 	}
 
-	public static void main(String[] args) throws DAOException {
+	public static void main(String[] args) {
 		LibraryShop publicLibrary = null;
-		IManagerService service = new ManagerServiceImpl();
-
-		//List books according to authors
-		publicLibrary = new LibraryShop(service.getBookService());
-		publicLibrary.showBookcaseInfo(service.getAuthorService());
-
-		System.out.println("---\n");
-
-		//List authors according to books
-		publicLibrary = new LibraryShop(service.getAuthorService());
-		publicLibrary.showBookcaseInfo(service.getBookService());
-
+		try {
+			new LibraryShop();
+			//List books according to authors
+			publicLibrary = new LibraryShop(newService.getBookService());
+			publicLibrary.showBookcaseInfo(newService.getAuthorService());
+			System.out.println("---\n");
+			//List authors according to books
+			publicLibrary = new LibraryShop(newService.getAuthorService());
+			publicLibrary.showBookcaseInfo(newService.getBookService());
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 		ConnectionProvider.freeConnection();
 	}
 
