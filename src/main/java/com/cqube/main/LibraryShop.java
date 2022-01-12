@@ -1,8 +1,9 @@
 package com.cqube.main;
 
+import com.cqube.iserv.IManagerService;
 import com.cqube.jdbc.ConnectionProvider;
+import com.cqube.serv.ManagerServiceImpl;
 import com.cqube.utils.DAOException;
-import com.cqube.utils.ServiceFactory;
 
 public class LibraryShop {
 
@@ -18,20 +19,18 @@ public class LibraryShop {
 	}
 
 	public static void main(String[] args) throws DAOException {
-		ILibraryServices authorService = ServiceFactory.getAuthorServiceImpl();
-		ILibraryServices bookService = ServiceFactory.getBookServiceImpl();
-
 		LibraryShop publicLibrary = null;
+		IManagerService service = new ManagerServiceImpl();
 
 		//List books according to authors
-		publicLibrary = new LibraryShop(bookService);
-		publicLibrary.showBookcaseInfo(authorService);
+		publicLibrary = new LibraryShop(service.getBookService());
+		publicLibrary.showBookcaseInfo(service.getAuthorService());
 
 		System.out.println("---\n");
 
 		//List authors according to books
-		publicLibrary = new LibraryShop(authorService);
-		publicLibrary.showBookcaseInfo(bookService);
+		publicLibrary = new LibraryShop(service.getAuthorService());
+		publicLibrary.showBookcaseInfo(service.getBookService());
 
 		ConnectionProvider.freeConnection();
 	}
