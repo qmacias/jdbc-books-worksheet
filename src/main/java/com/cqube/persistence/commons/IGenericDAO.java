@@ -1,4 +1,4 @@
-package com.cqube.idao;
+package com.cqube.persistence.commons;
 
 import java.util.List;
 

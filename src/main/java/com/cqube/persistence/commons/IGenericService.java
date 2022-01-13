@@ -1,4 +1,4 @@
-package com.cqube.iserv;
+package com.cqube.persistence.commons;
 
 import java.util.List;
 

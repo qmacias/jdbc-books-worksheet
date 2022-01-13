@@ -1,8 +1,8 @@
 package com.cqube.utils;
 
-import com.cqube.iserv.ILibraryService;
-import com.cqube.serv.AuthorRepositoryServiceImpl;
-import com.cqube.serv.BookRepositoryServiceImpl;
+import com.cqube.persistence.commons.ILibraryService;
+import com.cqube.persistence.impl.AuthorRepositoryServiceImpl;
+import com.cqube.persistence.impl.BookRepositoryServiceImpl;
 
 public class ServiceFactory {
 

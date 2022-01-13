@@ -1,9 +1,9 @@
 package com.cqube.main;
 
-import com.cqube.iserv.ILibraryService;
-import com.cqube.iserv.IManagerService;
-import com.cqube.jdbc.ConnectionProvider;
-import com.cqube.serv.ManagerServiceImpl;
+import com.cqube.persistence.commons.ConnectionProvider;
+import com.cqube.persistence.commons.ILibraryService;
+import com.cqube.persistence.commons.IManagerService;
+import com.cqube.persistence.impl.ManagerServiceImpl;
 import com.cqube.utils.DAOException;
 
 public class LibraryShop {

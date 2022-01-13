@@ -1,4 +1,4 @@
-package com.cqube.iserv;
+package com.cqube.persistence.commons;
 
 import com.cqube.utils.DAOException;
 

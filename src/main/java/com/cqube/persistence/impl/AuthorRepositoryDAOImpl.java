@@ -1,6 +1,4 @@
-package com.cqube.dao;
-
-import com.cqube.idao.IAuthorRepositoryDAO;
+package com.cqube.persistence.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cqube.model.Author;
+import com.cqube.persistence.IAuthorRepositoryDAO;
 import com.cqube.utils.DAOException;
 import com.cqube.utils.DAOUtils;
 

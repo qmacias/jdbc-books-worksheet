@@ -1,7 +1,7 @@
-package com.cqube.serv;
+package com.cqube.persistence.impl;
 
-import com.cqube.iserv.ILibraryService;
-import com.cqube.iserv.IManagerService;
+import com.cqube.persistence.commons.ILibraryService;
+import com.cqube.persistence.commons.IManagerService;
 import com.cqube.utils.DAOException;
 import com.cqube.utils.ServiceFactory;
 

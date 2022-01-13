@@ -1,11 +1,11 @@
-package com.cqube.dao;
+package com.cqube.persistence.impl;
 
 import java.util.List;
 
 import com.cqube.model.Book;
+import com.cqube.persistence.IBookRepositoryDAO;
 import com.cqube.utils.DAOException;
 import com.cqube.utils.DAOUtils;
-import com.cqube.idao.IBookRepositoryDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

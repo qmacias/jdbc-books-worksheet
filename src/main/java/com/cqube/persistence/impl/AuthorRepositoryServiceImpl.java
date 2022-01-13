@@ -1,12 +1,11 @@
-package com.cqube.serv;
+package com.cqube.persistence.impl;
 
 import java.util.List;
 
-import com.cqube.dao.ManagerDAOImpl;
-import com.cqube.idao.IManagerDAO;
-import com.cqube.iserv.IAuthorRepositoryService;
-import com.cqube.iserv.ILibraryService;
 import com.cqube.model.Author;
+import com.cqube.persistence.IAuthorRepositoryService;
+import com.cqube.persistence.commons.ILibraryService;
+import com.cqube.persistence.commons.IManagerDAO;
 import com.cqube.utils.DAOException;
 
 public class AuthorRepositoryServiceImpl implements IAuthorRepositoryService, ILibraryService {

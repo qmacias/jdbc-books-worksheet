@@ -1,9 +1,9 @@
-package com.cqube.dao;
+package com.cqube.persistence.impl;
 
-import com.cqube.idao.IAuthorRepositoryDAO;
-import com.cqube.idao.IBookRepositoryDAO;
-import com.cqube.idao.IManagerDAO;
-import com.cqube.jdbc.ConnectionProvider;
+import com.cqube.persistence.IAuthorRepositoryDAO;
+import com.cqube.persistence.IBookRepositoryDAO;
+import com.cqube.persistence.commons.ConnectionProvider;
+import com.cqube.persistence.commons.IManagerDAO;
 import com.cqube.utils.DAOException;
 import com.cqube.utils.DAOFactory;
 
