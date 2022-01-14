@@ -7,5 +7,7 @@ import com.cqube.service.common.IGenericService;
 import com.cqube.utils.DAOException;
 
 public interface IBookRepositoryService extends IGenericService<Book> {
-	public List<Book> listByAuthor(Long author) throws DAOException;
+	public Book create(String title, String isbn) throws DAOException;
+	public Book update(Long id, String title, String isbn) throws DAOException;
+	public List<Book> listAllByAuthor(Long author) throws DAOException;
 }

@@ -5,5 +5,7 @@ import java.util.List;
 import com.cqube.utils.DAOException;
 
 public interface IGenericService<T> {
-	public List<T> list() throws DAOException;
+	public int delete(Long id) throws DAOException;
+	public T find(Long id) throws DAOException;
+	public List<T> listAll() throws DAOException;
 }

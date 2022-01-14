@@ -2,15 +2,18 @@ package com.cqube.model;
 
 public class Book {
 	
-	private Long id = null;
+	private Long id;
 	private String title;
 	private String isbn;
 	
 	public Book(Long id, String title, String isbn) {
-		super();
 		this.id = id;
 		this.title = title;
 		this.isbn = isbn;
+	}
+
+	public Book(String title, String isbn) {
+		this(null, title, isbn);
 	}
 
 	public Long getId() {

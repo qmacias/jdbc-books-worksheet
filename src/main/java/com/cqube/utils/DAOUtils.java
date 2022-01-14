@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DAOUtils {
 	
-    static public void close(PreparedStatement statement) throws DAOException {
+    static public void closePreparedStatement(PreparedStatement statement) throws DAOException {
         try {
         	if (!(statement == null)) {
         		statement.close();
@@ -16,7 +16,7 @@ public class DAOUtils {
         }
     }
     
-    static public void close(ResultSet result) throws DAOException { 
+    static public void closeResultSet(ResultSet result) throws DAOException { 
         try {
         	if (!(result == null)) {
         		result.close();
@@ -25,5 +25,5 @@ public class DAOUtils {
             throw new DAOException("Error en SQL", e);
         }
     }
-
+    
 }

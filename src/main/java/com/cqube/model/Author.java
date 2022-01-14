@@ -2,13 +2,18 @@ package com.cqube.model;
 
 public class Author {
 	
-	private Long id = null;
+	private Long id;
 	private String name;
 	
+	public Author() {}
+	
 	public Author(Long id, String name) {
-		super();
 		this.id = id;
 		this.name = name;
+	}
+
+	public Author(String name) {
+		this(null, name);
 	}
 
 	public Long getId() {

@@ -12,7 +12,7 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	private Author author;
 	private List<Author> authorList;
 	private IManagerService manager;
-
+	
 	public AuthorRepositoryControllerImpl(IManagerService manager) {
 		super();
 		this.manager = manager;
@@ -33,24 +33,65 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	public void setAuthorList(List<Author> authorList) {
 		this.authorList = authorList;
 	}
+	
+	@Override
+	public Author add(String name) throws DAOException {
+		manager.getAuthorService().create(name);
+		//Refresh
+		selectAll();
+		return null;
+	}
+	
+	@Override
+	public Author edit(Long id, String name) throws DAOException {
+		manager.getAuthorService().update(id, name);
+		//Refresh list
+		selectAll();
+		return null;
+	}
+	
+	@Override
+	public Author remove(Long id) throws DAOException {
+		manager.getAuthorService().delete(id);
+		//Refresh list
+		selectAll();
+		return null;
+	}
+
+	@Override
+	public Author select(Long id) throws DAOException {
+		clearAuthor();
+		//Select an author
+		setAuthor(manager.getAuthorService().find(id));
+		return null;
+	}
 
 	@Override
 	public List<Author> selectAll() throws DAOException {
-		if (!(authorList == null)) {
-			authorList.clear();
-		}
-		authorList = manager.getAuthorService().list();
+		clearAuthorList();
+		//Select all authors
+		setAuthorList(manager.getAuthorService().listAll());
 		return null;
 	}
 
 	@Override
 	public List<Author> selectAllByBook(Long book) throws DAOException {
+		clearAuthorList();
+		//Select authors according to a book
+		setAuthorList(manager.getAuthorService().listAllByBook(book));
+		return null;
+	}
+	
+	private void clearAuthorList() {
 		if (!(authorList == null)) {
 			authorList.clear();
 		}
-		//List authors according to a book
-		authorList = manager.getAuthorService().listByBook(book);
-		return null;
+	}
+	
+	private void clearAuthor() {
+		if (!(author == null)) {
+			author = null;
+		}
 	}
 
 }
