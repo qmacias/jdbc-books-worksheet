@@ -1,19 +1,23 @@
-package com.cqube.utils;
+package com.cqube.factory.impl;
 
 import java.sql.Connection;
 
+import com.cqube.factory.IDAOFactory;
 import com.cqube.persistence.IAuthorRepositoryDAO;
 import com.cqube.persistence.IBookRepositoryDAO;
 import com.cqube.persistence.impl.AuthorRepositoryDAOImpl;
 import com.cqube.persistence.impl.BookRepositoryDAOImpl;
 
-public class DAOFactory {
+public class DAOFactoryImpl implements IDAOFactory {
 
-	public static IAuthorRepositoryDAO getAuthorDAOImpl(Connection connection) {
+	@Override
+	public IAuthorRepositoryDAO getAuthorDAOImpl(Connection connection) {
 		return new AuthorRepositoryDAOImpl(connection);
 	}
 	
-	public static IBookRepositoryDAO getBookDAOImpl(Connection connection) {
+	@Override
+	public IBookRepositoryDAO getBookDAOImpl(Connection connection) {
 		return new BookRepositoryDAOImpl(connection);
 	}
+	
 }
