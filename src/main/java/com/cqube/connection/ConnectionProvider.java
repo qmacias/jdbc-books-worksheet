@@ -1,4 +1,4 @@
-package com.cqube.persistence.commons;
+package com.cqube.connection;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

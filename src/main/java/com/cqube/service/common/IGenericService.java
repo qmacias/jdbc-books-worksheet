@@ -1,4 +1,4 @@
-package com.cqube.persistence.commons;
+package com.cqube.service.common;
 
 import java.util.List;
 

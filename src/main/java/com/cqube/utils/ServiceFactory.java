@@ -1,17 +1,19 @@
 package com.cqube.utils;
 
-import com.cqube.persistence.commons.ILibraryService;
-import com.cqube.persistence.impl.AuthorRepositoryServiceImpl;
-import com.cqube.persistence.impl.BookRepositoryServiceImpl;
+import com.cqube.persistence.common.IManagerDAO;
+import com.cqube.service.IAuthorRepositoryService;
+import com.cqube.service.IBookRepositoryService;
+import com.cqube.service.impl.AuthorRepositoryServiceImpl;
+import com.cqube.service.impl.BookRepositoryServiceImpl;
 
 public class ServiceFactory {
 
-	public static ILibraryService getAuthorServiceImpl() throws DAOException {
-		return new AuthorRepositoryServiceImpl();
+	public static IAuthorRepositoryService getAuthorServiceImpl(IManagerDAO manager) throws DAOException {
+		return new AuthorRepositoryServiceImpl(manager);
 	}
 	
-	public static ILibraryService getBookServiceImpl() throws DAOException {
-		return new BookRepositoryServiceImpl();
+	public static IBookRepositoryService getBookServiceImpl(IManagerDAO manager) throws DAOException {
+		return new BookRepositoryServiceImpl(manager);
 	}
 
 }

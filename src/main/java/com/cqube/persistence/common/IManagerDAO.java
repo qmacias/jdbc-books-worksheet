@@ -1,4 +1,4 @@
-package com.cqube.persistence.commons;
+package com.cqube.persistence.common;
 
 import com.cqube.persistence.IAuthorRepositoryDAO;
 import com.cqube.persistence.IBookRepositoryDAO;

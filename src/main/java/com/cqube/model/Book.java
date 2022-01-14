@@ -2,7 +2,7 @@ package com.cqube.model;
 
 public class Book {
 	
-	private Long id;
+	private Long id = null;
 	private String title;
 	private String isbn;
 	

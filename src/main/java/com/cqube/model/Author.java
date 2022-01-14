@@ -2,7 +2,7 @@ package com.cqube.model;
 
 public class Author {
 	
-	private Long id;
+	private Long id = null;
 	private String name;
 	
 	public Author(Long id, String name) {
