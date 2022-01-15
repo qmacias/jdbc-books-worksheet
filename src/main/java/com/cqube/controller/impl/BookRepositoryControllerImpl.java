@@ -14,22 +14,25 @@ public class BookRepositoryControllerImpl implements IBookRepositoryController {
 	private IManagerService manager;
 
 	public BookRepositoryControllerImpl(IManagerService manager) {
-		super();
 		this.manager = manager;
 	}
 
+	@Override
 	public Book getBook() {
 		return book;
 	}
 
+	@Override
 	public void setBook(Book book) {
 		this.book = book;
 	}
 	
+	@Override
 	public List<Book> getBookList() {
 		return bookList;
 	}
 
+	@Override
 	public void setBookList(List<Book> bookList) {
 		this.bookList = bookList;
 	}

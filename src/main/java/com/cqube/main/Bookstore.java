@@ -1,8 +1,8 @@
 package com.cqube.main;
 
 import com.cqube.connection.ConnectionProvider;
-import com.cqube.controller.impl.AuthorRepositoryControllerImpl;
-import com.cqube.controller.impl.BookRepositoryControllerImpl;
+import com.cqube.controller.common.IManagerController;
+import com.cqube.controller.impl.ManagerControllerImpl;
 import com.cqube.model.Author;
 import com.cqube.model.Book;
 import com.cqube.persistence.impl.ManagerDAOImpl;
@@ -13,50 +13,49 @@ public class Bookstore {
 
 	public static void main(String[] args) {
 		try {
-			//CREATE CONTROLLERS
-			BookRepositoryControllerImpl bookController = new BookRepositoryControllerImpl(new ManagerServiceImpl(new ManagerDAOImpl()));
-			AuthorRepositoryControllerImpl authorController = new AuthorRepositoryControllerImpl(new ManagerServiceImpl(new ManagerDAOImpl()));
+			//CREATE MANAGER CONTROLLER
+			IManagerController manager = new ManagerControllerImpl(new ManagerServiceImpl(new ManagerDAOImpl()));
 			//CREATE AN AUTHOR
-			authorController.add("William Shakespeare");
-			authorController.select(10L);
-			System.out.println(authorController.getAuthor());
-			System.out.println(authorController.getAuthorList());
+			manager.getAuthorController().add("William Shakespeare");
+			manager.getAuthorController().select(10L);
+			System.out.println(manager.getAuthorController().getAuthor());
+			System.out.println(manager.getAuthorController().getAuthorList());
 			//CREATE A BOOK
-			bookController.add("Hamlet", "9789505630028");
-			bookController.select(5L);
-			System.out.println(bookController.getBook());
-			System.out.println(bookController.getBookList());
+			manager.getBookController().add("Hamlet", "9789505630028");
+			manager.getBookController().select(5L);
+			System.out.println(manager.getBookController().getBook());
+			System.out.println(manager.getBookController().getBookList());
 			//EDIT AN AUTHOR
-			authorController.edit(10L, "William Faulkner");
-			authorController.select(10L);
-			System.out.println(authorController.getAuthor());
-			System.out.println(authorController.getAuthorList());
+			manager.getAuthorController().edit(10L, "William Faulkner");
+			manager.getAuthorController().select(10L);
+			System.out.println(manager.getAuthorController().getAuthor());
+			System.out.println(manager.getAuthorController().getAuthorList());
 			//EDIT A BOOK
-			bookController.edit(5L, "Requiem for a Nun", "9780394714127");
-			bookController.select(5L);
-			System.out.println(bookController.getBook());
-			System.out.println(bookController.getBookList());
+			manager.getBookController().edit(5L, "Requiem for a Nun", "9780394714127");
+			manager.getBookController().select(5L);
+			System.out.println(manager.getBookController().getBook());
+			System.out.println(manager.getBookController().getBookList());
 			//REMOVE AN AUTHOR
-			authorController.remove(10L);
-			System.out.println(authorController.getAuthor());
-			System.out.println(authorController.getAuthorList());
+			manager.getAuthorController().remove(10L);
+			System.out.println(manager.getAuthorController().getAuthor());
+			System.out.println(manager.getAuthorController().getAuthorList());
 			//REMOVE A BOOK
-			bookController.remove(5L);
-			System.out.println(bookController.getBook());
-			System.out.println(bookController.getBookList());
+			manager.getBookController().remove(5L);
+			System.out.println(manager.getBookController().getBook());
+			System.out.println(manager.getBookController().getBookList());
 			//SELECT BOOKS ACCORDING TO THEIR AUTHORS
-			bookController.selectAll();
-			for (Book b : bookController.getBookList()) {
+			manager.getBookController().selectAll();
+			for (Book b : manager.getBookController().getBookList()) {
 				System.out.println("Book: " + b.getTitle());
-				authorController.selectAllByBook(b.getId());
-				System.out.println("Authors: " + authorController.getAuthorList());
+				manager.getAuthorController().selectAllByBook(b.getId());
+				System.out.println("Authors: " + manager.getAuthorController().getAuthorList());
 			}
 			//SELECT AUTHORS ACCORDING TO THEIR BOOKS
-			authorController.selectAll();
-			for (Author a : authorController.getAuthorList()) {
+			manager.getAuthorController().selectAll();
+			for (Author a : manager.getAuthorController().getAuthorList()) {
 				System.out.println("Author: " + a.getName());
-				bookController.selectAllByAuthor(a.getId());
-				System.out.println("Books: " + bookController.getBookList());
+				manager.getBookController().selectAllByAuthor(a.getId());
+				System.out.println("Books: " + manager.getBookController().getBookList());
 			}
 		} catch (DAOException e) {
 			e.printStackTrace();

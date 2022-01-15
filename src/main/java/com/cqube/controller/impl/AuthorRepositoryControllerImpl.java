@@ -14,22 +14,25 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	private IManagerService manager;
 	
 	public AuthorRepositoryControllerImpl(IManagerService manager) {
-		super();
 		this.manager = manager;
 	}
 
+	@Override
 	public Author getAuthor() {
 		return author;
 	}
 
+	@Override
 	public void setAuthor(Author author) {
 		this.author = author;
 	}
 
+	@Override
 	public List<Author> getAuthorList() {
 		return authorList;
 	}
 
+	@Override
 	public void setAuthorList(List<Author> authorList) {
 		this.authorList = authorList;
 	}

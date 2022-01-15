@@ -10,4 +10,8 @@ public interface IAuthorRepositoryController extends IGenericController<Author> 
 	public Author add(String name) throws DAOException;
 	public Author edit(Long id, String name) throws DAOException;
 	public List<Author> selectAllByBook(Long book) throws DAOException;
+	public Author getAuthor();
+	public void setAuthor(Author author);
+	public List<Author> getAuthorList();
+	public void setAuthorList(List<Author> authorList);
 }
