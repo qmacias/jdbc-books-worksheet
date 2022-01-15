@@ -1,5 +1,7 @@
 package com.cqube.main;
 
+import java.sql.SQLException;
+
 import com.cqube.connection.ConnectionProvider;
 import com.cqube.controller.common.IManagerController;
 import com.cqube.controller.impl.ManagerControllerImpl;
@@ -17,11 +19,14 @@ public class Bookstore {
 			IManagerController manager = new ManagerControllerImpl(new ManagerServiceImpl(new ManagerDAOImpl()));
 			//CREATE AN AUTHOR
 			manager.getAuthorController().add("William Shakespeare");
+			//manager.getAuthorController().add("Enrich Gamma"); //duplicated name error
 			manager.getAuthorController().select(10L);
 			System.out.println(manager.getAuthorController().getAuthor());
 			System.out.println(manager.getAuthorController().getAuthorList());
 			//CREATE A BOOK
 			manager.getBookController().add("Hamlet", "9789505630028");
+			//manager.getBookController().add("Mundo Consumo", "9769603631105"); //duplicated title error
+			//manager.getBookController().add("Retrotopía", "977884493-6"); //duplicated isbn error
 			manager.getBookController().select(5L);
 			System.out.println(manager.getBookController().getBook());
 			System.out.println(manager.getBookController().getBookList());
@@ -57,7 +62,7 @@ public class Bookstore {
 				manager.getBookController().selectAllByAuthor(a.getId());
 				System.out.println("Books: " + manager.getBookController().getBookList());
 			}
-		} catch (DAOException e) {
+		} catch (DAOException | SQLException e) {
 			e.printStackTrace();
 		} finally {
 			ConnectionProvider.freeConnection();

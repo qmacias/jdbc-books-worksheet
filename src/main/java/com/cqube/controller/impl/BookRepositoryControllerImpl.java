@@ -1,5 +1,6 @@
 package com.cqube.controller.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.cqube.controller.IBookRepositoryController;
@@ -38,7 +39,7 @@ public class BookRepositoryControllerImpl implements IBookRepositoryController {
 	}
 	
 	@Override
-	public Book add(String title, String isbn) throws DAOException {
+	public Book add(String title, String isbn) throws DAOException, SQLException {
 		manager.getBookService().create(title, isbn);
 		//Refresh list
 		selectAll();

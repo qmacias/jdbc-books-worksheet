@@ -1,5 +1,6 @@
 package com.cqube.controller.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.cqube.controller.IAuthorRepositoryController;
@@ -38,7 +39,7 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	}
 	
 	@Override
-	public Author add(String name) throws DAOException {
+	public Author add(String name) throws DAOException, SQLException {
 		manager.getAuthorService().create(name);
 		//Refresh
 		selectAll();

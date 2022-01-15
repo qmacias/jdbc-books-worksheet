@@ -28,13 +28,15 @@ public class AuthorRepositoryDAOImpl implements IAuthorRepositoryDAO {
     }
     
     @Override
-	public int insert(Author a) throws DAOException {
+	public int insert(Author a) throws DAOException, SQLException {
+    	connection.setAutoCommit(false);
     	PreparedStatement statement = null;
         ResultSet result = null;
         try {
             statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, a.getName());
             int rows = statement.executeUpdate();
+            connection.commit();
             if (rows == 0) {
                 throw new DAOException("The record may not have been saved");
             }
@@ -46,6 +48,7 @@ public class AuthorRepositoryDAOImpl implements IAuthorRepositoryDAO {
             }
             return rows;
         } catch (SQLException e) {
+        	connection.rollback();
             throw new DAOException("SQL Error", e);
         } finally {
             DAOUtils.closeResultSet(result);

@@ -29,7 +29,8 @@ public class BookRepositoryDAOImpl implements IBookRepositoryDAO {
     }
     
     @Override
-	public int insert(Book b) throws DAOException {
+	public int insert(Book b) throws DAOException, SQLException {
+    	connection.setAutoCommit(false);
     	PreparedStatement statement = null;
         ResultSet result = null;
         try {
@@ -37,6 +38,7 @@ public class BookRepositoryDAOImpl implements IBookRepositoryDAO {
             statement.setString(1, b.getTitle());
             statement.setString(2, b.getIsbn());
             int rows = statement.executeUpdate();
+            connection.commit();
             if (rows == 0) {
                 throw new DAOException("The record may not have been saved");
             }
@@ -48,6 +50,7 @@ public class BookRepositoryDAOImpl implements IBookRepositoryDAO {
             }
             return rows;
         } catch (SQLException e) {
+        	connection.rollback();
             throw new DAOException("SQL Error", e);
         } finally {
             DAOUtils.closeResultSet(result);

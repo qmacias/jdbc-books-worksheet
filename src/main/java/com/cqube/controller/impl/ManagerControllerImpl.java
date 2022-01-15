@@ -16,7 +16,6 @@ public class ManagerControllerImpl implements IManagerController {
 	private IBookRepositoryController bookController = null;
 
 	public ManagerControllerImpl(IManagerService manager) {
-		super();
 		this.manager = manager;
 		this.controllerFactory = new ControllerFactoryImpl();
 	}

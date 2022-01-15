@@ -1,5 +1,6 @@
 package com.cqube.service.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.cqube.model.Book;
@@ -16,7 +17,7 @@ public class BookRepositoryServiceImpl implements IBookRepositoryService {
 	}
 
 	@Override
-	public Book create(String title, String isbn) throws DAOException {
+	public Book create(String title, String isbn) throws DAOException, SQLException {
 		Book book = new Book(title, isbn);
 		//Should be validated
 		manager.getBookDAO().insert(book);

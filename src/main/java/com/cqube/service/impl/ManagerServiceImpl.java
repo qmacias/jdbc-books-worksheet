@@ -16,7 +16,6 @@ public class ManagerServiceImpl implements IManagerService {
 	private IBookRepositoryService bookService = null;
 
 	public ManagerServiceImpl(IManagerDAO manager) {
-		super();
 		this.manager = manager;
 		this.serviceFactory = new ServiceFactoryImpl();
 	}

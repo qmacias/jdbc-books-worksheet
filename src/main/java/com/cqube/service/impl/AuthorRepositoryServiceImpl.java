@@ -1,5 +1,6 @@
 package com.cqube.service.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.cqube.model.Author;
@@ -16,7 +17,7 @@ public class AuthorRepositoryServiceImpl implements IAuthorRepositoryService {
 	}
 	
 	@Override
-	public Author create(String name) throws DAOException {
+	public Author create(String name) throws DAOException, SQLException {
 		Author author = new Author(name);
 		//Should be validated
 		manager.getAuthorDAO().insert(author);
