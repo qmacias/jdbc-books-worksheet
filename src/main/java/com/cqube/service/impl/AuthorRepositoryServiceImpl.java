@@ -25,7 +25,7 @@ public class AuthorRepositoryServiceImpl implements IAuthorRepositoryService {
 	}
 	
 	@Override
-	public Author update(Long id, String name) throws DAOException {
+	public Author update(Long id, String name) throws DAOException, SQLException {
 		Author author = manager.getAuthorDAO().find(id);
 		author.setName(name);
 		//Should be validated
@@ -34,7 +34,7 @@ public class AuthorRepositoryServiceImpl implements IAuthorRepositoryService {
 	}
 
 	@Override
-	public int delete(Long id) throws DAOException {
+	public int delete(Long id) throws DAOException, SQLException {
 		Author author = new Author(id, null);
 		return manager.getAuthorDAO().delete(author);
 	}
@@ -42,6 +42,11 @@ public class AuthorRepositoryServiceImpl implements IAuthorRepositoryService {
 	@Override
 	public Author find(Long id) throws DAOException {
 		return manager.getAuthorDAO().find(id);
+	}
+	
+	@Override
+	public Author findByName(String name) throws DAOException {
+		return manager.getAuthorDAO().findByName(name);
 	}
 
 	@Override

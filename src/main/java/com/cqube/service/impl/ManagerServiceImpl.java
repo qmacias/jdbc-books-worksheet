@@ -5,6 +5,7 @@ import com.cqube.factory.impl.ServiceFactoryImpl;
 import com.cqube.persistence.common.IManagerDAO;
 import com.cqube.service.IAuthorRepositoryService;
 import com.cqube.service.IBookRepositoryService;
+import com.cqube.service.IRelationshipRepositoryService;
 import com.cqube.service.common.IManagerService;
 import com.cqube.utils.DAOException;
 
@@ -14,6 +15,7 @@ public class ManagerServiceImpl implements IManagerService {
 	private IServiceFactory serviceFactory;
 	private IAuthorRepositoryService authorService = null;
 	private IBookRepositoryService bookService = null;
+	private IRelationshipRepositoryService relationshipService = null;
 
 	public ManagerServiceImpl(IManagerDAO manager) {
 		this.manager = manager;
@@ -34,6 +36,14 @@ public class ManagerServiceImpl implements IManagerService {
 			bookService = serviceFactory.getBookServiceImpl(manager);
 		}
 		return bookService;
+	}
+
+	@Override
+	public IRelationshipRepositoryService getRelationshipService() throws DAOException {
+		if (relationshipService == null) {
+			relationshipService = serviceFactory.getRelationshipServiceImpl(manager);
+		}
+		return relationshipService;
 	}
 
 }

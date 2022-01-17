@@ -16,12 +16,13 @@ import java.util.ArrayList;
 
 public class BookRepositoryDAOImpl implements IBookRepositoryDAO {
     
-    private final Connection connection;
+    private Connection connection;
     private static final String INSERT = "INSERT INTO books(title, isbn) VALUES (?, ?)";
     private static final String UPDATE = "UPDATE books SET title=?, isbn=? WHERE id=?";
     private static final String DELETE = "DELETE FROM books WHERE id=?";
     private static final String GETALL = "SELECT books.* FROM books";
     private static final String GETONE = GETALL + " WHERE id=?";
+    private static final String GETTLE = GETALL + " WHERE title=?";
     private static final String GETBOK = GETALL + " JOIN book_author ON book_author.book = books.id WHERE book_author.author=?";
 
     public BookRepositoryDAOImpl(Connection connection) {
@@ -59,7 +60,8 @@ public class BookRepositoryDAOImpl implements IBookRepositoryDAO {
 	}
 
 	@Override
-	public int update(Book b) throws DAOException {
+	public int update(Book b) throws DAOException, SQLException {
+		connection.setAutoCommit(false);
 		PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(UPDATE);
@@ -67,11 +69,13 @@ public class BookRepositoryDAOImpl implements IBookRepositoryDAO {
             statement.setString(2, b.getIsbn());
             statement.setLong(3, b.getId());
             int rows = statement.executeUpdate();
+            connection.commit();
             if (rows == 0) {
                 throw new DAOException("The record may not have been updated");
             }
             return rows;
         } catch (SQLException e) {
+        	connection.rollback();
             throw new DAOException("SQL Error", e);
         } finally {
             DAOUtils.closePreparedStatement(statement);
@@ -79,17 +83,20 @@ public class BookRepositoryDAOImpl implements IBookRepositoryDAO {
 	}
 
 	@Override
-	public int delete(Book b) throws DAOException {
+	public int delete(Book b) throws DAOException, SQLException {
+		connection.setAutoCommit(false);
 		PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(DELETE);
             statement.setLong(1, b.getId());
             int rows = statement.executeUpdate();
+            connection.commit();
             if (rows == 0) {
                 throw new DAOException("The record may not have been deleted");
             }
             return rows;
         } catch (SQLException e) {
+        	connection.rollback();
             throw new DAOException("SQL Error", e);
         } finally {
             DAOUtils.closePreparedStatement(statement);
@@ -163,5 +170,28 @@ public class BookRepositoryDAOImpl implements IBookRepositoryDAO {
     private Book convert(ResultSet result) throws SQLException {
         return new Book(result.getLong("id"), result.getString("title"), result.getString("isbn"));
     }
+
+	@Override
+	public Book findByTitle(String title) throws DAOException {
+		PreparedStatement statement = null;
+        ResultSet result = null;
+        Book book = null;
+        try {
+            statement = connection.prepareStatement(GETTLE);
+            statement.setString(1, title);
+            result = statement.executeQuery();
+            if (result.next()) {
+                book = convert(result);
+            } else {
+                throw new DAOException("The record may not have been found");
+            }
+        } catch (SQLException e) {
+            throw new DAOException("SQL Error", e);
+        } finally {
+            DAOUtils.closeResultSet(result);
+            DAOUtils.closePreparedStatement(statement);
+        }
+        return book;
+	}
 
 }

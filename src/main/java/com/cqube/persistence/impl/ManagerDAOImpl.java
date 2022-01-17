@@ -1,30 +1,25 @@
 package com.cqube.persistence.impl;
 
-import com.cqube.connection.ConnectionProvider;
 import com.cqube.factory.IDAOFactory;
 import com.cqube.factory.impl.DAOFactoryImpl;
 import com.cqube.persistence.IAuthorRepositoryDAO;
 import com.cqube.persistence.IBookRepositoryDAO;
+import com.cqube.persistence.IRelatioshipRepositoryDAO;
 import com.cqube.persistence.common.IManagerDAO;
-import com.cqube.utils.DAOException;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public class ManagerDAOImpl implements IManagerDAO {
 
+	private Connection connection;
 	private IDAOFactory daoFactory;
-    private final Connection connection;
     private IAuthorRepositoryDAO auhtorRepository = null;
     private IBookRepositoryDAO bookRepository = null;
+    private IRelatioshipRepositoryDAO relationshipRepository = null;
 
-    public ManagerDAOImpl() throws DAOException {
-        try {
-        	this.daoFactory = new DAOFactoryImpl();
-			this.connection = ConnectionProvider.getConnection();
-		} catch (SQLException e) {
-			throw new DAOException("Error en SQL", e);
-		}
+    public ManagerDAOImpl(Connection connection) {
+    	this.connection = connection;
+    	this.daoFactory = new DAOFactoryImpl();
     }
     
     @Override
@@ -42,5 +37,13 @@ public class ManagerDAOImpl implements IManagerDAO {
         }
         return bookRepository;
     }
+
+	@Override
+	public IRelatioshipRepositoryDAO getRelationshipDAO() {
+		if (relationshipRepository == null) {
+			relationshipRepository = daoFactory.getRelationshipDAOImpl(connection);
+		}
+		return relationshipRepository;
+	}
 
 }

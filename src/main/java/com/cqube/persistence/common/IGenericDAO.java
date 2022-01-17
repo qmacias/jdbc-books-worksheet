@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.cqube.utils.DAOException;
 
-public interface IGenericDAO<T> {
+public interface IGenericDAO<T, K> {
 	public int insert(T t) throws DAOException, SQLException;
-	public int update(T t) throws DAOException;
-	public int delete(T t) throws DAOException;
-	public T find(Long id) throws DAOException;
+	public int update(T t) throws DAOException, SQLException;
+	public int delete(T t) throws DAOException, SQLException;
+	public T find(K id) throws DAOException;
 	public List<T> findAll() throws DAOException;
 }

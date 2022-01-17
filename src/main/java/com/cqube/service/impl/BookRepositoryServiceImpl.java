@@ -25,7 +25,7 @@ public class BookRepositoryServiceImpl implements IBookRepositoryService {
 	}
 	
 	@Override
-	public Book update(Long id, String title, String isbn) throws DAOException {
+	public Book update(Long id, String title, String isbn) throws DAOException, SQLException {
 		Book book = manager.getBookDAO().find(id);
 		book.setTitle(title);
 		book.setIsbn(isbn);
@@ -35,7 +35,7 @@ public class BookRepositoryServiceImpl implements IBookRepositoryService {
 	}
 	
 	@Override
-	public int delete(Long id) throws DAOException {
+	public int delete(Long id) throws DAOException, SQLException {
 		Book book = new Book(id, null, null);
 		return manager.getBookDAO().delete(book);
 	}
@@ -43,6 +43,11 @@ public class BookRepositoryServiceImpl implements IBookRepositoryService {
 	@Override
 	public Book find(Long id) throws DAOException {
 		return manager.getBookDAO().find(id);
+	}
+	
+	@Override
+	public Book findByTitle(String title) throws DAOException {
+		return manager.getBookDAO().findByTitle(title);
 	}
 	
 	@Override

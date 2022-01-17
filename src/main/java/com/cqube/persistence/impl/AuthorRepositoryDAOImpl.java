@@ -15,12 +15,13 @@ import com.cqube.utils.DAOUtils;
 
 public class AuthorRepositoryDAOImpl implements IAuthorRepositoryDAO {
 
-    private final Connection connection;
+    private Connection connection;
     private static final String INSERT = "INSERT INTO authors(name) VALUES (?)";
     private static final String UPDATE = "UPDATE authors SET name=? WHERE id=?";
     private static final String DELETE = "DELETE FROM authors WHERE id=?";
     private static final String GETALL = "SELECT authors.* FROM authors";
     private static final String GETONE = GETALL + " WHERE id=?";
+    private static final String GETNAM = GETALL + " WHERE name=?";
     private static final String GETAUT = GETALL + " JOIN book_author ON book_author.author = authors.id WHERE book_author.book=?";
 
     public AuthorRepositoryDAOImpl(Connection connection) {
@@ -57,18 +58,21 @@ public class AuthorRepositoryDAOImpl implements IAuthorRepositoryDAO {
 	}
 
 	@Override
-	public int update(Author a) throws DAOException {
+	public int update(Author a) throws DAOException, SQLException {
+		connection.setAutoCommit(false);
 		PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(UPDATE);
             statement.setString(1, a.getName());
             statement.setLong(2, a.getId());
             int rows = statement.executeUpdate();
+            connection.commit();
             if (rows == 0) {
                 throw new DAOException("The record may not have been updated");
             }
             return rows;
         } catch (SQLException e) {
+        	connection.rollback();
             throw new DAOException("SQL Error", e);
         } finally {
             DAOUtils.closePreparedStatement(statement);
@@ -76,17 +80,20 @@ public class AuthorRepositoryDAOImpl implements IAuthorRepositoryDAO {
 	}
 
 	@Override
-	public int delete(Author a) throws DAOException {
+	public int delete(Author a) throws DAOException, SQLException {
+		connection.setAutoCommit(false);
 		PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(DELETE);
             statement.setLong(1, a.getId());
             int rows = statement.executeUpdate();
+            connection.commit();
             if (rows == 0) {
                 throw new DAOException("The record may not have been deleted");
             }
             return rows;
         } catch (SQLException e) {
+        	connection.rollback();
             throw new DAOException("SQL Error", e);
         } finally {
             DAOUtils.closePreparedStatement(statement);
@@ -101,6 +108,29 @@ public class AuthorRepositoryDAOImpl implements IAuthorRepositoryDAO {
         try {
             statement = connection.prepareStatement(GETONE);
             statement.setLong(1, id);
+            result = statement.executeQuery();
+            if (result.next()) {
+                author = convert(result);
+            } else {
+                throw new DAOException("The record may not have been found");
+            }
+        } catch (SQLException e) {
+            throw new DAOException("SQL Error", e);
+        } finally {
+            DAOUtils.closeResultSet(result);
+            DAOUtils.closePreparedStatement(statement);
+        }
+        return author;
+	}
+	
+	@Override
+	public Author findByName(String name) throws DAOException {
+		PreparedStatement statement = null;
+        ResultSet result = null;
+        Author author = null;
+        try {
+            statement = connection.prepareStatement(GETNAM);
+            statement.setString(1, name);
             result = statement.executeQuery();
             if (result.next()) {
                 author = convert(result);

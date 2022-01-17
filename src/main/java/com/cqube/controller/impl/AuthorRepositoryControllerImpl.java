@@ -47,7 +47,7 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	}
 	
 	@Override
-	public Author edit(Long id, String name) throws DAOException {
+	public Author edit(Long id, String name) throws DAOException, SQLException {
 		manager.getAuthorService().update(id, name);
 		//Refresh list
 		selectAll();
@@ -55,7 +55,7 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	}
 	
 	@Override
-	public Author remove(Long id) throws DAOException {
+	public Author remove(Long id) throws DAOException, SQLException {
 		manager.getAuthorService().delete(id);
 		//Refresh list
 		selectAll();
@@ -71,6 +71,14 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	}
 
 	@Override
+	public Author selectByName(String name) throws DAOException {
+		clearAuthor();
+		//Select an author by name
+		setAuthor(manager.getAuthorService().findByName(name));
+		return null;
+	}
+	
+	@Override
 	public List<Author> selectAll() throws DAOException {
 		clearAuthorList();
 		//Select all authors
@@ -85,16 +93,16 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 		setAuthorList(manager.getAuthorService().listAllByBook(book));
 		return null;
 	}
-	
-	private void clearAuthorList() {
-		if (!(authorList == null)) {
-			authorList.clear();
-		}
-	}
-	
+
 	private void clearAuthor() {
 		if (!(author == null)) {
 			author = null;
+		}
+	}
+
+	private void clearAuthorList() {
+		if (!(authorList == null)) {
+			authorList.clear();
 		}
 	}
 

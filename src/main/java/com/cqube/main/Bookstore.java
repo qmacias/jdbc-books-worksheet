@@ -16,20 +16,30 @@ public class Bookstore {
 	public static void main(String[] args) {
 		try {
 			//CREATE MANAGER CONTROLLER
-			IManagerController manager = new ManagerControllerImpl(new ManagerServiceImpl(new ManagerDAOImpl()));
+			IManagerController manager = new ManagerControllerImpl(
+							new ManagerServiceImpl(new ManagerDAOImpl(ConnectionProvider.getConnection())));
 			//CREATE AN AUTHOR
 			manager.getAuthorController().add("William Shakespeare");
 			//manager.getAuthorController().add("Enrich Gamma"); //duplicated name error
-			manager.getAuthorController().select(10L);
+			//manager.getAuthorController().select(10L);
+			manager.getAuthorController().selectByName("William Shakespeare");
 			System.out.println(manager.getAuthorController().getAuthor());
 			System.out.println(manager.getAuthorController().getAuthorList());
 			//CREATE A BOOK
 			manager.getBookController().add("Hamlet", "9789505630028");
 			//manager.getBookController().add("Mundo Consumo", "9769603631105"); //duplicated title error
 			//manager.getBookController().add("Retrotopía", "977884493-6"); //duplicated isbn error
-			manager.getBookController().select(5L);
+			//manager.getBookController().select(5L);
+			manager.getBookController().selectByTitle("Hamlet");
 			System.out.println(manager.getBookController().getBook());
 			System.out.println(manager.getBookController().getBookList());
+			//CREATE A RELATION
+			manager.getAuthorController().selectByName("William Shakespeare");
+			manager.getBookController().selectByTitle("Hamlet");
+			manager.getRelationshipController().add(
+					manager.getBookController().getBook().getId(),
+					manager.getAuthorController().getAuthor().getId()
+			);
 			//EDIT AN AUTHOR
 			manager.getAuthorController().edit(10L, "William Faulkner");
 			manager.getAuthorController().select(10L);

@@ -12,7 +12,7 @@ public class DAOUtils {
         		statement.close();
         	}
         } catch (SQLException e) {
-            throw new DAOException("Error en SQL", e);
+            throw new DAOException("SQL error", e);
         }
     }
     
@@ -22,7 +22,7 @@ public class DAOUtils {
         		result.close();
         	}
         } catch (SQLException e) {
-            throw new DAOException("Error en SQL", e);
+            throw new DAOException("SQL error", e);
         }
     }
     

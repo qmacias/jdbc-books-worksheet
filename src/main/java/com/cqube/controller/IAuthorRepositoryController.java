@@ -7,12 +7,13 @@ import com.cqube.controller.common.IGenericController;
 import com.cqube.model.Author;
 import com.cqube.utils.DAOException;
 
-public interface IAuthorRepositoryController extends IGenericController<Author> {
-	public Author add(String name) throws DAOException, SQLException;
-	public Author edit(Long id, String name) throws DAOException;
-	public List<Author> selectAllByBook(Long book) throws DAOException;
+public interface IAuthorRepositoryController extends IGenericController<Author, Long> {
 	public Author getAuthor();
 	public void setAuthor(Author author);
 	public List<Author> getAuthorList();
 	public void setAuthorList(List<Author> authorList);
+	public Author add(String name) throws DAOException, SQLException;
+	public Author edit(Long id, String name) throws DAOException, SQLException;
+	public Author selectByName(String name) throws DAOException;
+	public List<Author> selectAllByBook(Long book) throws DAOException;
 }

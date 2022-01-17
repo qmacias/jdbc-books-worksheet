@@ -2,6 +2,7 @@ package com.cqube.controller.impl;
 
 import com.cqube.controller.IAuthorRepositoryController;
 import com.cqube.controller.IBookRepositoryController;
+import com.cqube.controller.IRelationshipRepositoryController;
 import com.cqube.controller.common.IManagerController;
 import com.cqube.factory.IControllerFactory;
 import com.cqube.factory.impl.ControllerFactoryImpl;
@@ -14,6 +15,7 @@ public class ManagerControllerImpl implements IManagerController {
 	private IControllerFactory controllerFactory;
 	private IAuthorRepositoryController authorController = null;
 	private IBookRepositoryController bookController = null;
+	private IRelationshipRepositoryController relationshipController = null;
 
 	public ManagerControllerImpl(IManagerService manager) {
 		this.manager = manager;
@@ -34,6 +36,14 @@ public class ManagerControllerImpl implements IManagerController {
 			bookController = controllerFactory.getBookControllerImpl(manager);
 		}
 		return bookController;
+	}
+
+	@Override
+	public IRelationshipRepositoryController getRelationshipController() throws DAOException {
+		if (relationshipController  == null) {
+			relationshipController = controllerFactory.getRelationshipControllerImpl(manager);
+		}
+		return relationshipController;
 	}
 
 }
