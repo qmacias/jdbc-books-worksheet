@@ -31,9 +31,9 @@ public class RelationshipRepositoryServiceImpl implements IRelationshipRepositor
 	}
 
 	@Override
-	public int delete(PrimaryKey id) throws DAOException, SQLException {
+	public void delete(PrimaryKey id) throws DAOException, SQLException {
 		Relationship relation = new Relationship(id);
-		return daoManager.getRelationshipDAO().delete(relation);
+		daoManager.getRelationshipDAO().delete(relation);
 	}
 
 	@Override

@@ -27,8 +27,8 @@ public class BookRepositoryProxyImpl implements IBookRepositoryService {
 	}
 	
 	@Override
-	public int delete(Long id) throws DAOException, SQLException {
-		return realServiceManager.getBookService().delete(id);
+	public void delete(Long id) throws DAOException, SQLException {
+		realServiceManager.getBookService().delete(id);
 	}
 
 	@Override

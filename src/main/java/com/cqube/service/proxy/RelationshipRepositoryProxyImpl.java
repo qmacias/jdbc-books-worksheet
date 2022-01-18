@@ -28,8 +28,8 @@ public class RelationshipRepositoryProxyImpl implements IRelationshipRepositoryS
 	}
 	
 	@Override
-	public int delete(PrimaryKey id) throws DAOException, SQLException {
-		return realServiceManager.getRelationshipService().delete(id);
+	public void delete(PrimaryKey id) throws DAOException, SQLException {
+		realServiceManager.getRelationshipService().delete(id);
 	}
 
 	@Override

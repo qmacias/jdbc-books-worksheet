@@ -27,8 +27,8 @@ public class AuthorRepositoryProxyImpl implements IAuthorRepositoryService {
 	}
 	
 	@Override
-	public int delete(Long id) throws DAOException, SQLException {
-		return realServiceManager.getAuthorService().delete(id);
+	public void delete(Long id) throws DAOException, SQLException {
+		realServiceManager.getAuthorService().delete(id);
 	}
 
 	@Override

@@ -34,9 +34,9 @@ public class AuthorRepositoryServiceImpl implements IAuthorRepositoryService {
 	}
 
 	@Override
-	public int delete(Long id) throws DAOException, SQLException {
+	public void delete(Long id) throws DAOException, SQLException {
 		Author author = new Author(id, null);
-		return daoManager.getAuthorDAO().delete(author);
+		daoManager.getAuthorDAO().delete(author);
 	}
 
 	@Override

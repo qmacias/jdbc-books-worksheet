@@ -35,9 +35,9 @@ public class BookRepositoryServiceImpl implements IBookRepositoryService {
 	}
 	
 	@Override
-	public int delete(Long id) throws DAOException, SQLException {
+	public void delete(Long id) throws DAOException, SQLException {
 		Book book = new Book(id, null, null);
-		return daoManager.getBookDAO().delete(book);
+		daoManager.getBookDAO().delete(book);
 	}
 
 	@Override

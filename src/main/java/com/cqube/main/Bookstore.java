@@ -23,64 +23,41 @@ public class Bookstore {
 							new ManagerServiceImpl(new ManagerDAOImpl(ConnectionProvider.getConnection()))));
 			//CREATE A BOOK
 			manager.getBookController().add("Hamlet", "9789505630028");
-			//manager.getBookController().add("Mundo Consumo", "9769603631105"); //duplicated title error
-			//manager.getBookController().add("Retrotopía", "977884493-6"); //duplicated isbn error
-			//manager.getBookController().select(5L);
-			manager.getBookController().selectByTitle("Hamlet");
-			System.out.println(manager.getBookController().getBook());
-			System.out.println(manager.getBookController().getBookList());
+			System.out.println(manager.getBookController().selectByTitle("Hamlet"));
 			//CREATE AN AUTHOR
 			manager.getAuthorController().add("William Shakespeare");
-			//manager.getAuthorController().add("Enrich Gamma"); //duplicated name error
-			//manager.getAuthorController().select(10L);
-			manager.getAuthorController().selectByName("William Shakespeare");
-			System.out.println(manager.getAuthorController().getAuthor());
-			System.out.println(manager.getAuthorController().getAuthorList());
-			//CREATE A RELATIONSHIP
-			manager.getAuthorController().selectByName("William Shakespeare");
-			manager.getBookController().selectByTitle("Hamlet");
+			System.out.println(manager.getAuthorController().selectByName("William Shakespeare"));
+			//CREATE A RELATIONSHIP (first book id then author id)
 			manager.getRelationshipController().add(
-					manager.getBookController().getBook().getId(),
-					manager.getAuthorController().getAuthor().getId()
+					manager.getBookController().selectByTitle("Hamlet").getId(),
+					manager.getAuthorController().selectByName("William Shakespeare").getId()
 			);
-			//EDIT AN AUTHOR
-			manager.getAuthorController().edit(10L, "William Faulkner");
-			manager.getAuthorController().select(10L);
-			System.out.println(manager.getAuthorController().getAuthor());
-			System.out.println(manager.getAuthorController().getAuthorList());
 			//EDIT A BOOK
 			manager.getBookController().edit(5L, "Requiem for a Nun", "9780394714127");
-			manager.getBookController().select(5L);
-			System.out.println(manager.getBookController().getBook());
-			System.out.println(manager.getBookController().getBookList());
+			System.out.println(manager.getBookController().select(5L));
+			//EDIT AN AUTHOR
+			manager.getAuthorController().edit(10L, "William Faulkner");
+			System.out.println(manager.getAuthorController().select(10L));
 			//REMOVE RELATIONSHIP
 			manager.getRelationshipController().remove(new PrimaryKey(5, 10));
 			//REMOVE AN AUTHOR
 			manager.getAuthorController().remove(10L);
-			System.out.println(manager.getAuthorController().getAuthor());
-			System.out.println(manager.getAuthorController().getAuthorList());
 			//REMOVE A BOOK
 			manager.getBookController().remove(5L);
-			System.out.println(manager.getBookController().getBook());
-			System.out.println(manager.getBookController().getBookList());
-			//SELECT BOOKS ACCORDING TO THEIR AUTHORS
-			manager.getBookController().selectAll();
-			for (Book b : manager.getBookController().getBookList()) {
+			//SELECT BOOK ACCORDING TO THEIR AUTHORS
+			for (Book b : manager.getBookController().selectAll()) {
 				System.out.println("Book: " + b.getTitle());
-				manager.getRelationshipController().selectAllAuthorsByBook(b.getId());
-				for (Relationship r : manager.getRelationshipController().getRelationshipList()) {
-					manager.getAuthorController().select(r.getId().getAuthor());
-					manager.getAuthorController().getAuthorList().add(manager.getAuthorController().getAuthor());
+				for (Relationship r : manager.getRelationshipController().selectAllAuthorsByBook(b.getId())) {
+					System.out.println(manager.getAuthorController().select(r.getId().getAuthor()));
 				}
-				System.out.println("Authors: " + manager.getAuthorController().getAuthorList());
-			}/*
-			//SELECT AUTHORS ACCORDING TO THEIR BOOKS
-			manager.getAuthorController().selectAll();
-			for (Author a : manager.getAuthorController().getAuthorList()) {
+			}
+			//SELECT AUTHOR ACCORDING TO THEIR BOOKS
+			for (Author a : manager.getAuthorController().selectAll()) {
 				System.out.println("Author: " + a.getName());
-				manager.getBookController().selectAllByAuthor(a.getId());
-				System.out.println("Books: " + manager.getBookController().getBookList());
-			}*/
+				for (Relationship r : manager.getRelationshipController().selectAllBooksByAuthor(a.getId())) {
+					System.out.println(manager.getBookController().select(r.getId().getBook()));
+				}
+			}
 		} catch (DAOException | SQLException e) {
 			e.printStackTrace();
 		} finally {

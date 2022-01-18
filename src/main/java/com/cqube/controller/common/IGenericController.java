@@ -6,7 +6,7 @@ import java.util.List;
 import com.cqube.utils.DAOException;
 
 public interface IGenericController<T, K> {
-	public T remove(K id) throws DAOException, SQLException;
+	public void remove(K id) throws DAOException, SQLException;
 	public T select(K id) throws DAOException;
 	public List<T> selectAll() throws DAOException;
 }

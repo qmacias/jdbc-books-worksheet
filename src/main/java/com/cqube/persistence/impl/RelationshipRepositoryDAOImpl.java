@@ -21,8 +21,8 @@ public class RelationshipRepositoryDAOImpl implements IRelatioshipRepositoryDAO 
     private static final String DELETE = "DELETE FROM book_author WHERE book=? AND author=?";
     private static final String GETALL = "SELECT book_author.* FROM book_author";
     private static final String GETONE = GETALL + " WHERE book=? AND author=?";
-    private static final String GETAUT = GETALL + " WHERE author=?";
-    private static final String GETBOK = GETALL + " WHERE book=?";
+    private static final String GETAUT = GETALL + " WHERE book=?";
+    private static final String GETBOK = GETALL + " WHERE author=?";
 
     public RelationshipRepositoryDAOImpl(Connection connection) {
         this.connection = connection;
@@ -92,14 +92,14 @@ public class RelationshipRepositoryDAOImpl implements IRelatioshipRepositoryDAO 
 	public Relationship find(PrimaryKey id) throws DAOException {
 		PreparedStatement statement = null;
         ResultSet result = null;
-        Relationship relation = null;
+        Relationship relationship = null;
         try {
             statement = connection.prepareStatement(GETONE);
             statement.setLong(1, id.getBook());
             statement.setLong(2, id.getAuthor());
             result = statement.executeQuery();
             if (result.next()) {
-                relation = convert(result);
+                relationship = convert(result);
             } else {
                 throw new DAOException("The record may not have been found");
             }
@@ -109,19 +109,19 @@ public class RelationshipRepositoryDAOImpl implements IRelatioshipRepositoryDAO 
             DAOUtils.closeResultSet(result);
             DAOUtils.closePreparedStatement(statement);
         }
-        return relation;
+        return relationship;
 	}
 
 	@Override
 	public List<Relationship> findAll() throws DAOException {
 		PreparedStatement statement = null;
         ResultSet result = null;
-        List<Relationship> relation = new ArrayList<Relationship>();
+        List<Relationship> relationships = new ArrayList<Relationship>();
         try {
             statement = connection.prepareStatement(GETALL);
             result = statement.executeQuery();
             while (result.next()) {
-                relation.add(convert(result));
+                relationships.add(convert(result));
             }
         } catch (SQLException e) {
         	throw new DAOException("SQL Error", e);
@@ -129,20 +129,20 @@ public class RelationshipRepositoryDAOImpl implements IRelatioshipRepositoryDAO 
             DAOUtils.closeResultSet(result);
             DAOUtils.closePreparedStatement(statement);
         }
-        return relation;
+        return relationships;
 	}
 
 	@Override
 	public List<Relationship> findAllAuthorsByBook(Long book) throws DAOException {
 		PreparedStatement statement = null;
         ResultSet result = null;
-        List<Relationship> authors = new ArrayList<Relationship>();
+        List<Relationship> authorRefs = new ArrayList<Relationship>();
         try {
             statement = connection.prepareStatement(GETAUT);
             statement.setLong(1, book);
             result = statement.executeQuery();
             while (result.next()) {
-                authors.add(convert(result));
+                authorRefs.add(convert(result));
             }
         } catch (SQLException e) {
        	 throw new DAOException("SQL Error", e);
@@ -150,20 +150,20 @@ public class RelationshipRepositoryDAOImpl implements IRelatioshipRepositoryDAO 
             DAOUtils.closeResultSet(result);
             DAOUtils.closePreparedStatement(statement);
         }
-        return authors;
+        return authorRefs;
 	}
 
 	@Override
 	public List<Relationship> findAllBooksByAuthor(Long author) throws DAOException {
 		PreparedStatement statement = null;
         ResultSet result = null;
-        List<Relationship> books = new ArrayList<Relationship>();
+        List<Relationship> bookRefs = new ArrayList<Relationship>();
         try {
             statement = connection.prepareStatement(GETBOK);
             statement.setLong(1, author);
             result = statement.executeQuery();
             while (result.next()) {
-                books.add(convert(result));
+                bookRefs.add(convert(result));
             }
         } catch (SQLException e) {
        	 throw new DAOException("SQL Error", e);
@@ -171,7 +171,7 @@ public class RelationshipRepositoryDAOImpl implements IRelatioshipRepositoryDAO 
             DAOUtils.closeResultSet(result);
             DAOUtils.closePreparedStatement(statement);
         }
-        return books;
+        return bookRefs;
 	}
 	
 	private Relationship convert(ResultSet result) throws SQLException {
