@@ -10,45 +10,45 @@ import com.cqube.utils.DAOException;
 
 public class AuthorRepositoryProxyImpl implements IAuthorRepositoryService {
 
-	private IManagerService realService;
+	private IManagerService realServiceManager;
 	
-	public AuthorRepositoryProxyImpl(IManagerService realService) {
-		this.realService = realService;
+	public AuthorRepositoryProxyImpl(IManagerService realServiceManager) {
+		this.realServiceManager = realServiceManager;
 	}
 
 	@Override
 	public Author create(String name) throws DAOException, SQLException {
-		return realService.getAuthorService().create(name);
+		return realServiceManager.getAuthorService().create(name);
 	}
 	
 	@Override
 	public Author update(Long id, String name) throws DAOException, SQLException {
-		return realService.getAuthorService().update(id, name);
+		return realServiceManager.getAuthorService().update(id, name);
 	}
 	
 	@Override
 	public int delete(Long id) throws DAOException, SQLException {
-		return realService.getAuthorService().delete(id);
+		return realServiceManager.getAuthorService().delete(id);
 	}
 
 	@Override
 	public Author find(Long id) throws DAOException {
-		return realService.getAuthorService().find(id);
+		return realServiceManager.getAuthorService().find(id);
 	}
 
 	@Override
 	public Author findByName(String name) throws DAOException {
-		return realService.getAuthorService().findByName(name);
+		return realServiceManager.getAuthorService().findByName(name);
 	}
 	
 	@Override
 	public List<Author> listAll() throws DAOException {
-		return realService.getAuthorService().listAll();
+		return realServiceManager.getAuthorService().listAll();
 	}
 
 	@Override
 	public List<Author> listAllByBook(Long book) throws DAOException {
-		return realService.getAuthorService().listAllByBook(book);
+		return realServiceManager.getAuthorService().listAllByBook(book);
 	}
 
 }

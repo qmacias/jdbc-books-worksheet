@@ -11,49 +11,49 @@ import com.cqube.utils.DAOException;
 
 public class RelationshipRepositoryServiceImpl implements IRelationshipRepositoryService {
 
-	private IManagerDAO manager;
+	private IManagerDAO daoManager;
 	
-	public RelationshipRepositoryServiceImpl(IManagerDAO manager) {
-		this.manager = manager;
+	public RelationshipRepositoryServiceImpl(IManagerDAO daoManager) {
+		this.daoManager = daoManager;
 	}
 
 	@Override
 	public Relationship create(long book, long author) throws DAOException, SQLException {
 		Relationship relation = new Relationship(book, author);
-		manager.getRelationshipDAO().insert(relation);
+		daoManager.getRelationshipDAO().insert(relation);
 		return relation;
 	}
 
 	@Override
 	public Relationship update(long book, long author) throws DAOException {
-		Relationship relation = manager.getRelationshipDAO().find(new PrimaryKey(book, author));
+		Relationship relation = daoManager.getRelationshipDAO().find(new PrimaryKey(book, author));
 		return relation;
 	}
 
 	@Override
 	public int delete(PrimaryKey id) throws DAOException, SQLException {
 		Relationship relation = new Relationship(id);
-		return manager.getRelationshipDAO().delete(relation);
+		return daoManager.getRelationshipDAO().delete(relation);
 	}
 
 	@Override
 	public Relationship find(PrimaryKey id) throws DAOException {
-		return manager.getRelationshipDAO().find(id);
+		return daoManager.getRelationshipDAO().find(id);
 	}
 
 	@Override
 	public List<Relationship> listAll() throws DAOException {
-		return manager.getRelationshipDAO().findAll();
+		return daoManager.getRelationshipDAO().findAll();
 	}
 
 	@Override
 	public List<Relationship> listAllAuthorsByBook(Long book) throws DAOException {
-		return manager.getRelationshipDAO().findAllAuthorsByBook(book);
+		return daoManager.getRelationshipDAO().findAllAuthorsByBook(book);
 	}
 
 	@Override
 	public List<Relationship> listAllBooksByAuthor(Long author) throws DAOException {
-		return manager.getRelationshipDAO().findAllBooksByAuthor(author);
+		return daoManager.getRelationshipDAO().findAllBooksByAuthor(author);
 	}	
 	
 }

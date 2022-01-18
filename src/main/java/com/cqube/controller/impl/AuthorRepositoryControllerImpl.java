@@ -5,17 +5,17 @@ import java.util.List;
 
 import com.cqube.controller.IAuthorRepositoryController;
 import com.cqube.model.Author;
-import com.cqube.service.common.IManagerService;
+import com.cqube.service.proxy.common.IManagerProxy;
 import com.cqube.utils.DAOException;
 
 public class AuthorRepositoryControllerImpl implements IAuthorRepositoryController {
 
 	private Author author;
 	private List<Author> authorList;
-	private IManagerService manager;
+	private IManagerProxy proxyManager;
 	
-	public AuthorRepositoryControllerImpl(IManagerService manager) {
-		this.manager = manager;
+	public AuthorRepositoryControllerImpl(IManagerProxy proxyManager) {
+		this.proxyManager = proxyManager;
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	
 	@Override
 	public Author add(String name) throws DAOException, SQLException {
-		manager.getAuthorService().create(name);
+		proxyManager.getAuthorProxy().create(name);
 		//Refresh
 		selectAll();
 		return null;
@@ -48,7 +48,7 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	
 	@Override
 	public Author edit(Long id, String name) throws DAOException, SQLException {
-		manager.getAuthorService().update(id, name);
+		proxyManager.getAuthorProxy().update(id, name);
 		//Refresh list
 		selectAll();
 		return null;
@@ -56,7 +56,7 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	
 	@Override
 	public Author remove(Long id) throws DAOException, SQLException {
-		manager.getAuthorService().delete(id);
+		proxyManager.getAuthorProxy().delete(id);
 		//Refresh list
 		selectAll();
 		return null;
@@ -66,7 +66,7 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	public Author select(Long id) throws DAOException {
 		clearAuthor();
 		//Select an author
-		setAuthor(manager.getAuthorService().find(id));
+		setAuthor(proxyManager.getAuthorProxy().find(id));
 		return null;
 	}
 
@@ -74,7 +74,7 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	public Author selectByName(String name) throws DAOException {
 		clearAuthor();
 		//Select an author by name
-		setAuthor(manager.getAuthorService().findByName(name));
+		setAuthor(proxyManager.getAuthorProxy().findByName(name));
 		return null;
 	}
 	
@@ -82,7 +82,7 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	public List<Author> selectAll() throws DAOException {
 		clearAuthorList();
 		//Select all authors
-		setAuthorList(manager.getAuthorService().listAll());
+		setAuthorList(proxyManager.getAuthorProxy().listAll());
 		return null;
 	}
 
@@ -90,7 +90,7 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	public List<Author> selectAllByBook(Long book) throws DAOException {
 		clearAuthorList();
 		//Select authors according to a book
-		setAuthorList(manager.getAuthorService().listAllByBook(book));
+		setAuthorList(proxyManager.getAuthorProxy().listAllByBook(book));
 		return null;
 	}
 

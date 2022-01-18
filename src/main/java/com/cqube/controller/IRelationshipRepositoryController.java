@@ -14,6 +14,6 @@ public interface IRelationshipRepositoryController extends IGenericController<Re
 	public void setRelationshipList(List<Relationship> relationshipList);
 	public Relationship add(long book, long author) throws DAOException, SQLException;
 	public Relationship edit(long book, long author) throws DAOException;
-	public List<Relationship> selectAllBooksByAuthor(Long author) throws DAOException;
-	public List<Relationship> selectAllAuthorsByBook(Long book) throws DAOException;
+	public List<Relationship> selectAllBooksByAuthor(long author) throws DAOException;
+	public List<Relationship> selectAllAuthorsByBook(long book) throws DAOException;
 }

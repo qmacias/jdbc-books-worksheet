@@ -5,17 +5,17 @@ import java.util.List;
 
 import com.cqube.controller.IBookRepositoryController;
 import com.cqube.model.Book;
-import com.cqube.service.common.IManagerService;
+import com.cqube.service.proxy.common.IManagerProxy;
 import com.cqube.utils.DAOException;
 
 public class BookRepositoryControllerImpl implements IBookRepositoryController {
 
 	private Book book;
 	private List<Book> bookList;
-	private IManagerService manager;
+	private IManagerProxy proxyManager;
 
-	public BookRepositoryControllerImpl(IManagerService manager) {
-		this.manager = manager;
+	public BookRepositoryControllerImpl(IManagerProxy manager) {
+		this.proxyManager = manager;
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class BookRepositoryControllerImpl implements IBookRepositoryController {
 	
 	@Override
 	public Book add(String title, String isbn) throws DAOException, SQLException {
-		manager.getBookService().create(title, isbn);
+		proxyManager.getBookProxy().create(title, isbn);
 		//Refresh list
 		selectAll();
 		return null;
@@ -48,7 +48,7 @@ public class BookRepositoryControllerImpl implements IBookRepositoryController {
 	
 	@Override
 	public Book edit(Long id, String title, String isbn) throws DAOException, SQLException {
-		manager.getBookService().update(id, title, isbn);
+		proxyManager.getBookProxy().update(id, title, isbn);
 		//Refresh list
 		selectAll();
 		return null;
@@ -56,7 +56,7 @@ public class BookRepositoryControllerImpl implements IBookRepositoryController {
 	
 	@Override
 	public Book remove(Long id) throws DAOException, SQLException {
-		manager.getBookService().delete(id);
+		proxyManager.getBookProxy().delete(id);
 		//Refresh list
 		selectAll();
 		return null;
@@ -66,7 +66,7 @@ public class BookRepositoryControllerImpl implements IBookRepositoryController {
 	public Book select(Long id) throws DAOException {
 		clearBook();
 		//Select a book
-		setBook(manager.getBookService().find(id));
+		setBook(proxyManager.getBookProxy().find(id));
 		return null;
 	}
 	
@@ -74,7 +74,7 @@ public class BookRepositoryControllerImpl implements IBookRepositoryController {
 	public Book selectByTitle(String title) throws DAOException {
 		clearBook();
 		//Select a book by title
-		setBook(manager.getBookService().findByTitle(title));
+		setBook(proxyManager.getBookProxy().findByTitle(title));
 		return null;
 	}
 
@@ -82,7 +82,7 @@ public class BookRepositoryControllerImpl implements IBookRepositoryController {
 	public List<Book> selectAll() throws DAOException {
 		clearBookList();
 		//List all books
-		setBookList(manager.getBookService().listAll());
+		setBookList(proxyManager.getBookProxy().listAll());
 		return null;
 	}
 
@@ -90,7 +90,7 @@ public class BookRepositoryControllerImpl implements IBookRepositoryController {
 	public List<Book> selectAllByAuthor(Long author) throws DAOException {
 		clearBookList();
 		//List books according to an author
-		setBookList(manager.getBookService().listAllByAuthor(author));
+		setBookList(proxyManager.getBookProxy().listAllByAuthor(author));
 		return null;
 	}
 	

@@ -15,10 +15,10 @@ import com.cqube.utils.DAOUtils;
 
 public class RelationshipRepositoryDAOImpl implements IRelatioshipRepositoryDAO {
 
-	private final Connection connection;
+	private Connection connection;
     private static final String INSERT = "INSERT INTO book_author(book, author) VALUES(?, ?)";
     private static final String UPDATE = "UPDATE book_author SET book=?, author=?";
-    private static final String DELETE = "DELETE FROM book_author WHERE book? AND author=?";
+    private static final String DELETE = "DELETE FROM book_author WHERE book=? AND author=?";
     private static final String GETALL = "SELECT book_author.* FROM book_author";
     private static final String GETONE = GETALL + " WHERE book=? AND author=?";
     private static final String GETAUT = GETALL + " WHERE author=?";

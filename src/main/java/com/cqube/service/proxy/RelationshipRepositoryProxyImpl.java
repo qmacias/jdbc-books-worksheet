@@ -11,45 +11,45 @@ import com.cqube.utils.DAOException;
 
 public class RelationshipRepositoryProxyImpl implements IRelationshipRepositoryService {
 
-	private IManagerService realService;
+	private IManagerService realServiceManager;
 	
-	public RelationshipRepositoryProxyImpl(IManagerService manager) {
-		this.realService = manager;
+	public RelationshipRepositoryProxyImpl(IManagerService realServiceManager) {
+		this.realServiceManager = realServiceManager;
 	}
 
 	@Override
 	public Relationship create(long book, long author) throws DAOException, SQLException {
-		return realService.getRelationshipService().create(book, author);
+		return realServiceManager.getRelationshipService().create(book, author);
 	}
 
 	@Override
 	public Relationship update(long book, long author) throws DAOException {
-		return realService.getRelationshipService().update(book, author);
+		return realServiceManager.getRelationshipService().update(book, author);
 	}
 	
 	@Override
 	public int delete(PrimaryKey id) throws DAOException, SQLException {
-		return realService.getRelationshipService().delete(id);
+		return realServiceManager.getRelationshipService().delete(id);
 	}
 
 	@Override
 	public Relationship find(PrimaryKey id) throws DAOException {
-		return realService.getRelationshipService().find(id);
+		return realServiceManager.getRelationshipService().find(id);
 	}
 
 	@Override
 	public List<Relationship> listAll() throws DAOException {
-		return realService.getRelationshipService().listAll();
+		return realServiceManager.getRelationshipService().listAll();
 	}
 
 	@Override
 	public List<Relationship> listAllAuthorsByBook(Long book) throws DAOException {
-		return realService.getRelationshipService().listAllAuthorsByBook(book);
+		return realServiceManager.getRelationshipService().listAllAuthorsByBook(book);
 	}
 
 	@Override
 	public List<Relationship> listAllBooksByAuthor(Long author) throws DAOException {
-		return realService.getRelationshipService().listAllBooksByAuthor(author);
+		return realServiceManager.getRelationshipService().listAllBooksByAuthor(author);
 	}
 
 }

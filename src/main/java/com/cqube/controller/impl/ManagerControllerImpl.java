@@ -4,28 +4,25 @@ import com.cqube.controller.IAuthorRepositoryController;
 import com.cqube.controller.IBookRepositoryController;
 import com.cqube.controller.IRelationshipRepositoryController;
 import com.cqube.controller.common.IManagerController;
-import com.cqube.factory.IControllerFactory;
-import com.cqube.factory.impl.ControllerFactoryImpl;
-import com.cqube.service.common.IManagerService;
+import com.cqube.service.proxy.common.IManagerProxy;
+import com.cqube.utils.ControllerFactory;
 import com.cqube.utils.DAOException;
 
 public class ManagerControllerImpl implements IManagerController {
 
-	private IManagerService manager;
-	private IControllerFactory controllerFactory;
+	private IManagerProxy manager;
 	private IAuthorRepositoryController authorController = null;
 	private IBookRepositoryController bookController = null;
 	private IRelationshipRepositoryController relationshipController = null;
 
-	public ManagerControllerImpl(IManagerService manager) {
+	public ManagerControllerImpl(IManagerProxy manager) {
 		this.manager = manager;
-		this.controllerFactory = new ControllerFactoryImpl();
 	}
 	
 	@Override
 	public IAuthorRepositoryController getAuthorController() throws DAOException {
 		if (authorController == null) {
-			authorController = controllerFactory.getAuthorControllerImpl(manager);
+			authorController = ControllerFactory.getAuthorControllerImpl(manager);
 		}
 		return authorController;
 	}
@@ -33,7 +30,7 @@ public class ManagerControllerImpl implements IManagerController {
 	@Override
 	public IBookRepositoryController getBookController() throws DAOException {
 		if (bookController == null) {
-			bookController = controllerFactory.getBookControllerImpl(manager);
+			bookController = ControllerFactory.getBookControllerImpl(manager);
 		}
 		return bookController;
 	}
@@ -41,7 +38,7 @@ public class ManagerControllerImpl implements IManagerController {
 	@Override
 	public IRelationshipRepositoryController getRelationshipController() throws DAOException {
 		if (relationshipController  == null) {
-			relationshipController = controllerFactory.getRelationshipControllerImpl(manager);
+			relationshipController = ControllerFactory.getRelationshipControllerImpl(manager);
 		}
 		return relationshipController;
 	}

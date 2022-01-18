@@ -10,53 +10,53 @@ import com.cqube.utils.DAOException;
 
 public class AuthorRepositoryServiceImpl implements IAuthorRepositoryService {
 
-	private IManagerDAO manager;
+	private IManagerDAO daoManager;
 
-	public AuthorRepositoryServiceImpl(IManagerDAO manager) {
-		this.manager = manager;
+	public AuthorRepositoryServiceImpl(IManagerDAO daoManager) {
+		this.daoManager = daoManager;
 	}
 	
 	@Override
 	public Author create(String name) throws DAOException, SQLException {
 		Author author = new Author(name);
 		//Should be validated
-		manager.getAuthorDAO().insert(author);
+		daoManager.getAuthorDAO().insert(author);
 		return author;
 	}
 	
 	@Override
 	public Author update(Long id, String name) throws DAOException, SQLException {
-		Author author = manager.getAuthorDAO().find(id);
+		Author author = daoManager.getAuthorDAO().find(id);
 		author.setName(name);
 		//Should be validated
-		manager.getAuthorDAO().update(author);
+		daoManager.getAuthorDAO().update(author);
 		return author;
 	}
 
 	@Override
 	public int delete(Long id) throws DAOException, SQLException {
 		Author author = new Author(id, null);
-		return manager.getAuthorDAO().delete(author);
+		return daoManager.getAuthorDAO().delete(author);
 	}
 
 	@Override
 	public Author find(Long id) throws DAOException {
-		return manager.getAuthorDAO().find(id);
+		return daoManager.getAuthorDAO().find(id);
 	}
 	
 	@Override
 	public Author findByName(String name) throws DAOException {
-		return manager.getAuthorDAO().findByName(name);
+		return daoManager.getAuthorDAO().findByName(name);
 	}
 
 	@Override
 	public List<Author> listAll() throws DAOException {
-		return manager.getAuthorDAO().findAll();
+		return daoManager.getAuthorDAO().findAll();
 	}
 
 	@Override
 	public List<Author> listAllByBook(Long book) throws DAOException {
-		return manager.getAuthorDAO().findAllByBook(book);
+		return daoManager.getAuthorDAO().findAllByBook(book);
 	}
 
 }

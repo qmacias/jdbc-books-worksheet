@@ -6,17 +6,17 @@ import java.util.List;
 import com.cqube.controller.IRelationshipRepositoryController;
 import com.cqube.model.Relationship;
 import com.cqube.model.Relationship.PrimaryKey;
-import com.cqube.service.common.IManagerService;
+import com.cqube.service.proxy.common.IManagerProxy;
 import com.cqube.utils.DAOException;
 
 public class RelationshipRepositoryControllerImpl implements IRelationshipRepositoryController {
 
 	private Relationship relationship;
 	private List<Relationship> relationshipList;
-	private IManagerService serviceManager;
+	private IManagerProxy proxyManager;
 	
-	public RelationshipRepositoryControllerImpl(IManagerService serviceManager) {
-		this.serviceManager = serviceManager;
+	public RelationshipRepositoryControllerImpl(IManagerProxy proxyManager) {
+		this.proxyManager = proxyManager;
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class RelationshipRepositoryControllerImpl implements IRelationshipReposi
 
 	@Override
 	public Relationship add(long book, long author) throws DAOException, SQLException {
-		serviceManager.getRelationshipService().create(book, author);
+		proxyManager.getRelationshipProxy().create(book, author);
 		//Refresh
 		selectAll();
 		return null;
@@ -49,7 +49,7 @@ public class RelationshipRepositoryControllerImpl implements IRelationshipReposi
 
 	@Override
 	public Relationship edit(long book, long author) throws DAOException {
-		serviceManager.getRelationshipService().update(book, author);
+		proxyManager.getRelationshipProxy().update(book, author);
 		//Refresh list
 		selectAll();
 		return null;
@@ -57,7 +57,7 @@ public class RelationshipRepositoryControllerImpl implements IRelationshipReposi
 	
 	@Override
 	public Relationship remove(PrimaryKey id) throws DAOException, SQLException {
-		serviceManager.getRelationshipService().delete(id);
+		proxyManager.getRelationshipProxy().delete(id);
 		//Refresh list
 		selectAll();
 		return null;
@@ -67,7 +67,7 @@ public class RelationshipRepositoryControllerImpl implements IRelationshipReposi
 	public Relationship select(PrimaryKey id) throws DAOException {
 		clearRelationship();
 		//Select a relationship
-		setRelationship(serviceManager.getRelationshipService().find(id));
+		setRelationship(proxyManager.getRelationshipProxy().find(id));
 		return null;
 	}
 
@@ -75,23 +75,23 @@ public class RelationshipRepositoryControllerImpl implements IRelationshipReposi
 	public List<Relationship> selectAll() throws DAOException {
 		clearRelationshipList();
 		//Select all relationships
-		setRelationshipList(serviceManager.getRelationshipService().listAll());
+		setRelationshipList(proxyManager.getRelationshipProxy().listAll());
 		return null;
 	}
 
 	@Override
-	public List<Relationship> selectAllBooksByAuthor(Long author) throws DAOException {
+	public List<Relationship> selectAllBooksByAuthor(long author) throws DAOException {
 		clearRelationshipList();
 		//Select all authors according to a book
-		setRelationshipList(serviceManager.getRelationshipService().listAllBooksByAuthor(author));
+		setRelationshipList(proxyManager.getRelationshipProxy().listAllBooksByAuthor(author));
 		return null;
 	}
 
 	@Override
-	public List<Relationship> selectAllAuthorsByBook(Long book) throws DAOException {
+	public List<Relationship> selectAllAuthorsByBook(long book) throws DAOException {
 		clearRelationshipList();
 		//Select all books according to an author
-		setRelationshipList(serviceManager.getRelationshipService().listAllAuthorsByBook(book));
+		setRelationshipList(proxyManager.getRelationshipProxy().listAllAuthorsByBook(book));
 		return null;
 	}
 	
