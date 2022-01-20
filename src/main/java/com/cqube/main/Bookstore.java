@@ -5,23 +5,19 @@ import java.sql.SQLException;
 
 import com.cqube.connection.ConnectionProvider;
 import com.cqube.controller.common.IManagerController;
-import com.cqube.controller.impl.ManagerControllerImpl;
 import com.cqube.model.Author;
 import com.cqube.model.Book;
 import com.cqube.model.Relationship;
 import com.cqube.model.Relationship.PrimaryKey;
-import com.cqube.persistence.impl.ManagerDAOImpl;
-import com.cqube.service.impl.ManagerServiceImpl;
-import com.cqube.service.proxy.ManagerProxyImpl;
 import com.cqube.utils.DAOException;
+import com.cqube.utils.ManagerFactory;
 
 public class Bookstore implements IBookstore {
 	
 	private IManagerController manager;
 	
 	public Bookstore(Connection connection) {
-		this.manager = new ManagerControllerImpl(new ManagerProxyImpl(
-				new ManagerServiceImpl(new ManagerDAOImpl(connection))));;
+		this.manager = ManagerFactory.getManagerController(connection);
 	}
 
 	@Override

@@ -20,16 +20,18 @@ public class BookRepositoryProxyImpl implements IBookRepositoryService {
 	public Book create(String title, String isbn) throws DAOException, SQLException {
 		Book book = realServiceManager.getBookService().create(title, isbn);
 		if (book  == null) {
-			throw new NullPointerException("Null object");
+			throw new NullPointerException("Null object: failed to create");
 		}
 		return book;
 	}
 
+	//Missing proxy evaluation
 	@Override
 	public Book update(Long id, String title, String isbn) throws DAOException, SQLException {
 		return realServiceManager.getBookService().update(id, title, isbn);
 	}
 	
+	//Missing proxy evaluation
 	@Override
 	public void delete(Long id) throws DAOException, SQLException {
 		realServiceManager.getBookService().delete(id);
@@ -37,22 +39,20 @@ public class BookRepositoryProxyImpl implements IBookRepositoryService {
 
 	@Override
 	public Book find(Long id) throws DAOException {
-		return realServiceManager.getBookService().find(id);
-	}
-	
-	@Override
-	public Book findByTitle(String title) throws DAOException {
-		return realServiceManager.getBookService().findByTitle(title);
+		Book book = realServiceManager.getBookService().find(id);
+		if (book == null) {
+			throw new NullPointerException("Null object: failed to find");
+		}
+		return book;
 	}
 
 	@Override
 	public List<Book> listAll() throws DAOException {
-		return realServiceManager.getBookService().listAll();
-	}
-
-	@Override
-	public List<Book> listAllByAuthor(Long author) throws DAOException {
-		return realServiceManager.getBookService().listAllByAuthor(author);
+		List<Book> books = realServiceManager.getBookService().listAll();
+		if (books == null) {
+			throw new NullPointerException("Null collection: failed to list");
+		}
+		return books;
 	}
 
 }

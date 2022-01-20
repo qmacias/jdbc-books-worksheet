@@ -22,8 +22,6 @@ public class BookRepositoryDAOImpl implements IBookRepositoryDAO {
     private static final String DELETE = "DELETE FROM books WHERE id=?";
     private static final String GETALL = "SELECT books.* FROM books";
     private static final String GETONE = GETALL + " WHERE id=?";
-    private static final String GETTLE = GETALL + " WHERE title=?";
-    private static final String GETBOK = GETALL + " JOIN book_author ON book_author.book = books.id WHERE book_author.author=?";
 
     public BookRepositoryDAOImpl(Connection connection) {
         this.connection = connection;
@@ -145,53 +143,9 @@ public class BookRepositoryDAOImpl implements IBookRepositoryDAO {
         }
         return books;
     }
-    
-    @Override
-	public List<Book> findAllByAuthor(Long author) throws DAOException {
-    	PreparedStatement statement = null;
-        ResultSet result = null;
-        List<Book> books = new ArrayList<Book>();
-        try {
-            statement = connection.prepareStatement(GETBOK);
-            statement.setLong(1, author);
-            result = statement.executeQuery();
-            while (result.next()) {
-                books.add(convert(result));
-            }
-        } catch (SQLException e) {
-            throw new DAOException("Error en SQL", e);
-        } finally {
-            DAOUtils.closeResultSet(result);
-            DAOUtils.closePreparedStatement(statement);
-        }
-        return books;
-	}
-    
-    private Book convert(ResultSet result) throws SQLException {
+	
+	private Book convert(ResultSet result) throws SQLException {
         return new Book(result.getLong("id"), result.getString("title"), result.getString("isbn"));
     }
-
-	@Override
-	public Book findByTitle(String title) throws DAOException {
-		PreparedStatement statement = null;
-        ResultSet result = null;
-        Book book = null;
-        try {
-            statement = connection.prepareStatement(GETTLE);
-            statement.setString(1, title);
-            result = statement.executeQuery();
-            if (result.next()) {
-                book = convert(result);
-            } else {
-                throw new DAOException("The record may not have been found");
-            }
-        } catch (SQLException e) {
-            throw new DAOException("SQL Error", e);
-        } finally {
-            DAOUtils.closeResultSet(result);
-            DAOUtils.closePreparedStatement(statement);
-        }
-        return book;
-	}
 
 }

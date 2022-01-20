@@ -20,16 +20,18 @@ public class AuthorRepositoryProxyImpl implements IAuthorRepositoryService {
 	public Author create(String name) throws DAOException, SQLException {
 		Author author = realServiceManager.getAuthorService().create(name);
 		if (author == null) {
-			throw new NullPointerException("Null object");
+			throw new NullPointerException("Null object: failed to create");
 		}
 		return author;
 	}
 	
+	//Missing proxy evaluation
 	@Override
 	public Author update(Long id, String name) throws DAOException, SQLException {
 		return realServiceManager.getAuthorService().update(id, name);
 	}
 	
+	//Missing proxy evaluation
 	@Override
 	public void delete(Long id) throws DAOException, SQLException {
 		realServiceManager.getAuthorService().delete(id);
@@ -37,22 +39,20 @@ public class AuthorRepositoryProxyImpl implements IAuthorRepositoryService {
 
 	@Override
 	public Author find(Long id) throws DAOException {
-		return realServiceManager.getAuthorService().find(id);
-	}
-
-	@Override
-	public Author findByName(String name) throws DAOException {
-		return realServiceManager.getAuthorService().findByName(name);
+		Author author = realServiceManager.getAuthorService().find(id);
+		if (author == null) {
+			throw new NullPointerException("Null object: failed to find");
+		}
+		return author;
 	}
 	
 	@Override
 	public List<Author> listAll() throws DAOException {
-		return realServiceManager.getAuthorService().listAll();
-	}
-
-	@Override
-	public List<Author> listAllByBook(Long book) throws DAOException {
-		return realServiceManager.getAuthorService().listAllByBook(book);
+		List<Author> authors = realServiceManager.getAuthorService().listAll();
+		if (authors == null) {
+			throw new NullPointerException("Null collection: failed to list");
+		}
+		return authors;
 	}
 
 }

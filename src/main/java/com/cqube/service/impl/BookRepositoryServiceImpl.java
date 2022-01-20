@@ -18,14 +18,15 @@ public class BookRepositoryServiceImpl implements IBookRepositoryService {
 
 	@Override
 	public Book create(String title, String isbn) throws DAOException, SQLException {
-		Book book = null;
+		Book book = new Book(title, isbn);
 		//Should be validated
-		if (!(daoManager.getBookDAO().insert(new Book(title, isbn)) == 0)) {
-			book = daoManager.getBookDAO().findByTitle(title);
+		if (!(daoManager.getBookDAO().insert(book) == 0)) {
+			return book;
 		}
-		return book;
+		return null;
 	}
 	
+	//Missing service evaluation
 	@Override
 	public Book update(Long id, String title, String isbn) throws DAOException, SQLException {
 		Book book = daoManager.getBookDAO().find(id);
@@ -36,6 +37,7 @@ public class BookRepositoryServiceImpl implements IBookRepositoryService {
 		return book;
 	}
 	
+	//Missing service evaluation
 	@Override
 	public void delete(Long id) throws DAOException, SQLException {
 		Book book = new Book(id, null, null);
@@ -46,20 +48,10 @@ public class BookRepositoryServiceImpl implements IBookRepositoryService {
 	public Book find(Long id) throws DAOException {
 		return daoManager.getBookDAO().find(id);
 	}
-	
-	@Override
-	public Book findByTitle(String title) throws DAOException {
-		return daoManager.getBookDAO().findByTitle(title);
-	}
-	
+
 	@Override
 	public List<Book> listAll() throws DAOException {
 		return daoManager.getBookDAO().findAll();
-	}
-
-	@Override
-	public List<Book> listAllByAuthor(Long author) throws DAOException {
-		return daoManager.getBookDAO().findAllByAuthor(author);
 	}
 
 }

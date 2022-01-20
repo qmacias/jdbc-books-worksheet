@@ -21,8 +21,6 @@ public class AuthorRepositoryDAOImpl implements IAuthorRepositoryDAO {
     private static final String DELETE = "DELETE FROM authors WHERE id=?";
     private static final String GETALL = "SELECT authors.* FROM authors";
     private static final String GETONE = GETALL + " WHERE id=?";
-    private static final String GETNAM = GETALL + " WHERE name=?";
-    private static final String GETAUT = GETALL + " JOIN book_author ON book_author.author = authors.id WHERE book_author.book=?";
 
     public AuthorRepositoryDAOImpl(Connection connection) {
         this.connection = connection;
@@ -124,29 +122,6 @@ public class AuthorRepositoryDAOImpl implements IAuthorRepositoryDAO {
 	}
 	
 	@Override
-	public Author findByName(String name) throws DAOException {
-		PreparedStatement statement = null;
-        ResultSet result = null;
-        Author author = null;
-        try {
-            statement = connection.prepareStatement(GETNAM);
-            statement.setString(1, name);
-            result = statement.executeQuery();
-            if (result.next()) {
-                author = convert(result);
-            } else {
-                throw new DAOException("The record may not have been found");
-            }
-        } catch (SQLException e) {
-            throw new DAOException("SQL Error", e);
-        } finally {
-            DAOUtils.closeResultSet(result);
-            DAOUtils.closePreparedStatement(statement);
-        }
-        return author;
-	}
-	
-	@Override
     public List<Author> findAll() throws DAOException {
         PreparedStatement statement = null;
         ResultSet result = null;
@@ -166,27 +141,6 @@ public class AuthorRepositoryDAOImpl implements IAuthorRepositoryDAO {
         return authors;
     }
 
-    @Override
-	public List<Author> findAllByBook(Long book) throws DAOException {
-    	 PreparedStatement statement = null;
-         ResultSet result = null;
-         List<Author> authors = new ArrayList<Author>();
-         try {
-             statement = connection.prepareStatement(GETAUT);
-             statement.setLong(1, book);
-             result = statement.executeQuery();
-             while (result.next()) {
-                 authors.add(convert(result));
-             }
-         } catch (SQLException e) {
-        	 throw new DAOException("SQL Error", e);
-         } finally {
-             DAOUtils.closeResultSet(result);
-             DAOUtils.closePreparedStatement(statement);
-         }
-         return authors;
-	}
-	
     private Author convert(ResultSet result) throws SQLException {
         return new Author(result.getLong("id"), result.getString("name"));
     }

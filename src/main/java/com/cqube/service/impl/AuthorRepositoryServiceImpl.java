@@ -18,14 +18,15 @@ public class AuthorRepositoryServiceImpl implements IAuthorRepositoryService {
 	
 	@Override
 	public Author create(String name) throws DAOException, SQLException {
-		Author author = null;
+		Author author = new Author(name);
 		//Should be validated
-		if (!(daoManager.getAuthorDAO().insert(new Author(name)) == 0)) {
-			author = daoManager.getAuthorDAO().findByName(name);
-		}
-		return author;
+		if (!(daoManager.getAuthorDAO().insert(author) == 0)) {
+			return author;
+		}  
+		return null;
 	}
 	
+	//Missing service evaluation
 	@Override
 	public Author update(Long id, String name) throws DAOException, SQLException {
 		Author author = daoManager.getAuthorDAO().find(id);
@@ -35,6 +36,7 @@ public class AuthorRepositoryServiceImpl implements IAuthorRepositoryService {
 		return author;
 	}
 
+	//Missing service evaluation
 	@Override
 	public void delete(Long id) throws DAOException, SQLException {
 		Author author = new Author(id, null);
@@ -45,20 +47,10 @@ public class AuthorRepositoryServiceImpl implements IAuthorRepositoryService {
 	public Author find(Long id) throws DAOException {
 		return daoManager.getAuthorDAO().find(id);
 	}
-	
-	@Override
-	public Author findByName(String name) throws DAOException {
-		return daoManager.getAuthorDAO().findByName(name);
-	}
 
 	@Override
 	public List<Author> listAll() throws DAOException {
 		return daoManager.getAuthorDAO().findAll();
-	}
-
-	@Override
-	public List<Author> listAllByBook(Long book) throws DAOException {
-		return daoManager.getAuthorDAO().findAllByBook(book);
 	}
 
 }

@@ -39,20 +39,10 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	public Author select(Long id) throws DAOException {
 		return proxyManager.getAuthorProxy().find(id);
 	}
-
-	@Override
-	public Author selectByName(String name) throws DAOException {
-		return proxyManager.getAuthorProxy().findByName(name);
-	}
 	
 	@Override
 	public List<Author> selectAll() throws DAOException {
 		return proxyManager.getAuthorProxy().listAll();
-	}
-
-	@Override
-	public List<Author> selectAllByBook(Long book) throws DAOException {
-		return proxyManager.getAuthorProxy().listAllByBook(book);
 	}
 
 }
