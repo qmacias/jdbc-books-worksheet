@@ -1,5 +1,6 @@
 package com.cqube.main;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import com.cqube.connection.ConnectionProvider;
@@ -14,36 +15,45 @@ import com.cqube.service.impl.ManagerServiceImpl;
 import com.cqube.service.proxy.ManagerProxyImpl;
 import com.cqube.utils.DAOException;
 
-public class Bookstore {
+public class Bookstore implements IBookstore {
+	
+	private IManagerController manager;
+	
+	public Bookstore(Connection connection) {
+		this.manager = new ManagerControllerImpl(new ManagerProxyImpl(
+				new ManagerServiceImpl(new ManagerDAOImpl(connection))));;
+	}
+
+	@Override
+	public void addTransaction(String title, String isbn, String name) throws DAOException, SQLException {
+		manager.getRelationshipController().add(
+				manager.getBookController().add(title, isbn).getId(), manager.getAuthorController().add(name).getId());
+	}
+	
+	@Override
+	public void editTransaction(String title, String isbn, String name, long book, long author) throws DAOException, SQLException {
+		manager.getBookController().edit(book, title, isbn);
+		manager.getAuthorController().edit(author, name);
+	}
+	
+	@Override
+	public void removeTransaction(Long book, Long author) throws DAOException, SQLException {
+		manager.getRelationshipController().remove(new PrimaryKey(book, author));
+		manager.getAuthorController().remove(author);
+		manager.getBookController().remove(book);
+	}
 
 	public static void main(String[] args) {
 		try {
-			//CREATE MANAGER CONTROLLER
-			IManagerController manager = new ManagerControllerImpl(new ManagerProxyImpl(
-							new ManagerServiceImpl(new ManagerDAOImpl(ConnectionProvider.getConnection()))));
-			//CREATE A BOOK
-			manager.getBookController().add("Hamlet", "9789505630028");
-			System.out.println(manager.getBookController().selectByTitle("Hamlet"));
-			//CREATE AN AUTHOR
-			manager.getAuthorController().add("William Shakespeare");
-			System.out.println(manager.getAuthorController().selectByName("William Shakespeare"));
-			//CREATE A RELATIONSHIP (first book id then author id)
-			manager.getRelationshipController().add(
-					manager.getBookController().selectByTitle("Hamlet").getId(),
-					manager.getAuthorController().selectByName("William Shakespeare").getId()
-			);
-			//EDIT A BOOK
-			manager.getBookController().edit(5L, "Requiem for a Nun", "9780394714127");
-			System.out.println(manager.getBookController().select(5L));
-			//EDIT AN AUTHOR
-			manager.getAuthorController().edit(10L, "William Faulkner");
-			System.out.println(manager.getAuthorController().select(10L));
-			//REMOVE RELATIONSHIP
-			manager.getRelationshipController().remove(new PrimaryKey(5, 10));
-			//REMOVE AN AUTHOR
-			manager.getAuthorController().remove(10L);
-			//REMOVE A BOOK
-			manager.getBookController().remove(5L);
+			//MANAGER CONTROLLER
+			IBookstore bookstore = new Bookstore(ConnectionProvider.getConnection());
+			//ADD TRANSACTION
+			bookstore.addTransaction("Hamlet", "9789505630028", "William Shakespeare");
+			//EDIT TRANSACTION
+			bookstore.editTransaction("Requiem for a Nun", "9780394714127", "William Faulkner", 5L, 10L);
+			//REMOVE TRANSACTION
+			bookstore.removeTransaction(5L, 10L);
+			/*
 			//SELECT BOOK ACCORDING TO THEIR AUTHORS
 			for (Book b : manager.getBookController().selectAll()) {
 				System.out.println("Book: " + b.getTitle());
@@ -58,6 +68,7 @@ public class Bookstore {
 					System.out.println(manager.getBookController().select(r.getId().getBook()));
 				}
 			}
+			*/
 		} catch (DAOException | SQLException e) {
 			e.printStackTrace();
 		} finally {

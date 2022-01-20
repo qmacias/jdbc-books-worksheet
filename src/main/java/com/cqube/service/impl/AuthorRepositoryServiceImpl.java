@@ -18,9 +18,11 @@ public class AuthorRepositoryServiceImpl implements IAuthorRepositoryService {
 	
 	@Override
 	public Author create(String name) throws DAOException, SQLException {
-		Author author = new Author(name);
+		Author author = null;
 		//Should be validated
-		daoManager.getAuthorDAO().insert(author);
+		if (!(daoManager.getAuthorDAO().insert(new Author(name)) == 0)) {
+			author = daoManager.getAuthorDAO().findByName(name);
+		}
 		return author;
 	}
 	

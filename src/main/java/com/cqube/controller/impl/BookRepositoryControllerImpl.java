@@ -17,9 +17,10 @@ public class BookRepositoryControllerImpl implements IBookRepositoryController {
 	}
 
 	@Override
-	public void add(String title, String isbn) throws DAOException, SQLException {
-		proxyManager.getBookProxy().create(title, isbn);
+	public Book add(String title, String isbn) throws DAOException, SQLException {
+		Book book = proxyManager.getBookProxy().create(title, isbn);
 		selectAll();
+		return book;
 	}
 	
 	@Override

@@ -18,7 +18,11 @@ public class AuthorRepositoryProxyImpl implements IAuthorRepositoryService {
 
 	@Override
 	public Author create(String name) throws DAOException, SQLException {
-		return realServiceManager.getAuthorService().create(name);
+		Author author = realServiceManager.getAuthorService().create(name);
+		if (author == null) {
+			throw new NullPointerException("Null object");
+		}
+		return author;
 	}
 	
 	@Override

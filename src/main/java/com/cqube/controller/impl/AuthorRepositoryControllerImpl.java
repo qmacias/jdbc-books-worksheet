@@ -17,9 +17,10 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	}
 	
 	@Override
-	public void add(String name) throws DAOException, SQLException {
-		proxyManager.getAuthorProxy().create(name);
+	public Author add(String name) throws DAOException, SQLException {
+		Author author = proxyManager.getAuthorProxy().create(name);
 		selectAll();
+		return author;
 	}
 	
 	@Override

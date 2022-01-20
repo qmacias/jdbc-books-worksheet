@@ -18,9 +18,11 @@ public class BookRepositoryServiceImpl implements IBookRepositoryService {
 
 	@Override
 	public Book create(String title, String isbn) throws DAOException, SQLException {
-		Book book = new Book(title, isbn);
+		Book book = null;
 		//Should be validated
-		daoManager.getBookDAO().insert(book);
+		if (!(daoManager.getBookDAO().insert(new Book(title, isbn)) == 0)) {
+			book = daoManager.getBookDAO().findByTitle(title);
+		}
 		return book;
 	}
 	

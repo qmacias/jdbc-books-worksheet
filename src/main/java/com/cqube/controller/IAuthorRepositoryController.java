@@ -8,7 +8,7 @@ import com.cqube.model.Author;
 import com.cqube.utils.DAOException;
 
 public interface IAuthorRepositoryController extends IGenericController<Author, Long> {
-	public void add(String name) throws DAOException, SQLException;
+	public Author add(String name) throws DAOException, SQLException;
 	public void edit(Long id, String name) throws DAOException, SQLException;
 	public Author selectByName(String name) throws DAOException;
 	public List<Author> selectAllByBook(Long book) throws DAOException;

@@ -18,7 +18,11 @@ public class BookRepositoryProxyImpl implements IBookRepositoryService {
 
 	@Override
 	public Book create(String title, String isbn) throws DAOException, SQLException {
-		return realServiceManager.getBookService().create(title, isbn);
+		Book book = realServiceManager.getBookService().create(title, isbn);
+		if (book  == null) {
+			throw new NullPointerException("Null object");
+		}
+		return book;
 	}
 
 	@Override
