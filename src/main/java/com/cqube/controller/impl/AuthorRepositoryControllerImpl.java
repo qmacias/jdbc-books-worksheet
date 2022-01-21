@@ -7,13 +7,24 @@ import com.cqube.controller.IAuthorRepositoryController;
 import com.cqube.model.Author;
 import com.cqube.service.proxy.common.IManagerProxy;
 import com.cqube.utils.DAOException;
+import com.cqube.view.AuthorView;
 
 public class AuthorRepositoryControllerImpl implements IAuthorRepositoryController {
 
+	private Author authorModel;
+	private AuthorView authorView;
 	private IManagerProxy proxyManager;
 	
 	public AuthorRepositoryControllerImpl(IManagerProxy proxyManager) {
 		this.proxyManager = proxyManager;
+	}
+
+	public String getName() {
+		return authorModel.getName();
+	}
+
+	public void setName(String name) {
+		this.authorModel.setName(name);
 	}
 	
 	@Override
@@ -44,5 +55,19 @@ public class AuthorRepositoryControllerImpl implements IAuthorRepositoryControll
 	public List<Author> selectAll() throws DAOException {
 		return proxyManager.getAuthorProxy().listAll();
 	}
+	
+	@Override
+	public void printTicket() throws DAOException {
+		selectAll().forEach((author) -> {
+			authorModel = author;
+			authorView = new AuthorView();
+			updateView();
+		});
+	}
+	
+	@Override
+	public void updateView() {
+        authorView.printAuthorInfo(authorModel.getName());
+    }
 
 }

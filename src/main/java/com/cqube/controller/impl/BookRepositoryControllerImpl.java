@@ -7,13 +7,24 @@ import com.cqube.controller.IBookRepositoryController;
 import com.cqube.model.Book;
 import com.cqube.service.proxy.common.IManagerProxy;
 import com.cqube.utils.DAOException;
+import com.cqube.view.BookView;
 
 public class BookRepositoryControllerImpl implements IBookRepositoryController {
 
+	private Book bookModel;
+	private BookView bookView;
 	private IManagerProxy proxyManager;
 
 	public BookRepositoryControllerImpl(IManagerProxy manager) {
 		this.proxyManager = manager;
+	}
+	
+	public String getTitle() {
+		return bookModel.getTitle();
+	}
+	
+	public void setTitle(String title) {
+		this.bookModel.setTitle(title);
 	}
 
 	@Override
@@ -43,6 +54,20 @@ public class BookRepositoryControllerImpl implements IBookRepositoryController {
 	@Override
 	public List<Book> selectAll() throws DAOException {
 		return proxyManager.getBookProxy().listAll();
+	}
+
+	@Override
+	public void printTicket() throws DAOException {
+		selectAll().forEach((author) -> {
+			bookModel = author;
+			bookView = new BookView();
+			updateView();
+		});
+	}
+
+	@Override
+	public void updateView() {
+		bookView.printBookInfo(bookModel.getTitle(), bookModel.getIsbn());
 	}
 
 }

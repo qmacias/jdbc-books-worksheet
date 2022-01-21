@@ -12,7 +12,7 @@ import com.cqube.model.Relationship.PrimaryKey;
 import com.cqube.utils.DAOException;
 import com.cqube.utils.ManagerFactory;
 
-public class Bookstore implements IBookstore {
+public class Bookstore {
 	
 	private IManagerController manager;
 	
@@ -20,35 +20,40 @@ public class Bookstore implements IBookstore {
 		this.manager = ManagerFactory.getManagerController(connection);
 	}
 
-	@Override
 	public void addTransaction(String title, String isbn, String name) throws DAOException, SQLException {
 		manager.getRelationshipController().add(
-				manager.getBookController().add(title, isbn).getId(), manager.getAuthorController().add(name).getId());
+				manager.getBookController().add(title, isbn).getId(), manager.getAuthorController().add(name).getId()
+		);
 	}
-	
-	@Override
+
 	public void editTransaction(String title, String isbn, String name, long book, long author) throws DAOException, SQLException {
 		manager.getBookController().edit(book, title, isbn);
 		manager.getAuthorController().edit(author, name);
 	}
 	
-	@Override
 	public void removeTransaction(Long book, Long author) throws DAOException, SQLException {
 		manager.getRelationshipController().remove(new PrimaryKey(book, author));
 		manager.getAuthorController().remove(author);
 		manager.getBookController().remove(book);
 	}
+	
+	public void printBookstoreInfo() throws DAOException {
+		manager.getAuthorController().printTicket();
+		manager.getBookController().printTicket();
+	}
 
 	public static void main(String[] args) {
 		try {
 			//MANAGER CONTROLLER
-			IBookstore bookstore = new Bookstore(ConnectionProvider.getConnection());
+			Bookstore bookstore = new Bookstore(ConnectionProvider.getConnection());
 			//ADD TRANSACTION
 			bookstore.addTransaction("Hamlet", "9789505630028", "William Shakespeare");
 			//EDIT TRANSACTION
 			bookstore.editTransaction("Requiem for a Nun", "9780394714127", "William Faulkner", 5L, 10L);
 			//REMOVE TRANSACTION
 			bookstore.removeTransaction(5L, 10L);
+			//SELECT ALL ITEMS
+			bookstore.printBookstoreInfo();
 			/*
 			//SELECT BOOK ACCORDING TO THEIR AUTHORS
 			for (Book b : manager.getBookController().selectAll()) {

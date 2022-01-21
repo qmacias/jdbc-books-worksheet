@@ -55,4 +55,16 @@ public class RelationshipRepositoryControllerImpl implements IRelationshipReposi
 		return proxyManager.getRelationshipProxy().listAllAuthorsByBook(book);
 	}
 
+	@Override
+	public void printTicket() throws DAOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateView() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

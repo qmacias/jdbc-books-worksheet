@@ -9,4 +9,6 @@ public interface IGenericController<T, K> {
 	public void remove(K id) throws DAOException, SQLException;
 	public T select(K id) throws DAOException;
 	public List<T> selectAll() throws DAOException;
+	public void printTicket() throws DAOException;
+	public void updateView();
 }

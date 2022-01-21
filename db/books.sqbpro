@@ -1,1 +1,48 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/Administrador/eclipse-workspace-enterprise/jdbc-books-worksheet/books.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="877"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,7:mainauthors"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="authors" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="40"/><column index="2" value="106"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="book_author" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="40"/><column index="2" value="52"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="books" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="40"/><column index="2" value="102"/><column index="3" value="82"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="sqlite_sequence" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="50"/><column index="2" value="40"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1"></sql><current_tab id="0"/></tab_sql></sqlb_project>
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/Administrador/eclipse-workspace-enterprise/jdbc-books-worksheet/books.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1115"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,15:mainsqlite_sequence"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="authors" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="40"/><column index="2" value="106"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="book_author" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="40"/><column index="2" value="52"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="books" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="40"/><column index="2" value="102"/><column index="3" value="82"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="sqlite_sequence" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="50"/><column index="2" value="40"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="books.db.sql">--PRAGMA foreign_keys = ON;
+--PRAGMA foreign_keys = OFF;
+DROP TABLE IF EXISTS &quot;books&quot;;
+CREATE TABLE IF NOT EXISTS &quot;books&quot; (
+	&quot;id&quot;	INTEGER,
+	&quot;title&quot;	TEXT DEFAULT NULL UNIQUE,
+	&quot;isbn&quot;	TEXT DEFAULT NULL UNIQUE,
+	PRIMARY KEY(&quot;id&quot; AUTOINCREMENT)
+);
+
+DROP TABLE IF EXISTS &quot;authors&quot;;
+CREATE TABLE IF NOT EXISTS &quot;authors&quot; (
+	&quot;id&quot;	INTEGER,
+	&quot;name&quot;	TEXT DEFAULT NULL UNIQUE,
+	PRIMARY KEY(&quot;id&quot; AUTOINCREMENT)
+);
+
+DROP TABLE IF EXISTS &quot;book_author&quot;;
+CREATE TABLE IF NOT EXISTS &quot;book_author&quot; (
+	&quot;book&quot;	INTEGER NOT NULL,
+	&quot;author&quot;	INTEGER NOT NULL,
+	FOREIGN KEY(&quot;book&quot;) REFERENCES &quot;books&quot;(&quot;id&quot;),
+	FOREIGN KEY(&quot;author&quot;) REFERENCES &quot;authors&quot;(&quot;id&quot;)
+);
+
+INSERT INTO &quot;books&quot; VALUES (1,'La Rosalía','413412344-5');
+INSERT INTO &quot;books&quot; VALUES (2,'Design Patterns','293821498-7');
+INSERT INTO &quot;books&quot; VALUES (3,'Maldad Líquida','106337074-4');
+INSERT INTO &quot;books&quot; VALUES (4,'Mundo Consumo','977884493-6');
+INSERT INTO &quot;authors&quot; VALUES (1,'Enrich Gamma');
+INSERT INTO &quot;authors&quot; VALUES (2,'Zygmunt Bauman');
+INSERT INTO &quot;authors&quot; VALUES (3,'Bruno Galindo');
+INSERT INTO &quot;authors&quot; VALUES (4,'Richard Helm');
+INSERT INTO &quot;authors&quot; VALUES (5,'Leonidas Donskis');
+INSERT INTO &quot;authors&quot; VALUES (6,'Javier Blánquez');
+INSERT INTO &quot;authors&quot; VALUES (7,'Ralph Johnson');
+INSERT INTO &quot;authors&quot; VALUES (8,'Jorge Carrión');
+INSERT INTO &quot;authors&quot; VALUES (9,'John Vlissides');
+INSERT INTO &quot;book_author&quot; VALUES (1,3);
+INSERT INTO &quot;book_author&quot; VALUES (1,6);
+INSERT INTO &quot;book_author&quot; VALUES (1,8);
+INSERT INTO &quot;book_author&quot; VALUES (2,1);
+INSERT INTO &quot;book_author&quot; VALUES (2,4);
+INSERT INTO &quot;book_author&quot; VALUES (2,7);
+INSERT INTO &quot;book_author&quot; VALUES (2,9);
+INSERT INTO &quot;book_author&quot; VALUES (3,2);
+INSERT INTO &quot;book_author&quot; VALUES (3,5);
+INSERT INTO &quot;book_author&quot; VALUES (4,2);</sql><current_tab id="0"/></tab_sql></sqlb_project>
